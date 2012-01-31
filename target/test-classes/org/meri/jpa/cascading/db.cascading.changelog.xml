@@ -1,0 +1,208 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet id="1" author="meri">
+		<comment>Create structure for One-To-One default configuration test case.</comment>
+
+		<createTable tableName="cascadeonetooneowner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="inverse_id" type="integer">
+				<constraints unique="true" />
+			</column>
+		</createTable>
+		<createTable tableName="cascadepersistdemo">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="inverse_id" type="integer">
+				<constraints unique="true" />
+			</column>
+		</createTable>
+		<createTable tableName="cascadeonetooneinverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_cascadeonetooneownerinverse"
+			baseTableName="cascadeonetooneowner" baseColumnNames="inverse_id"
+			referencedTableName="cascadeonetooneinverse" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_cascadeonetoonepersistdemo"
+			baseTableName="cascadepersistdemo" baseColumnNames="inverse_id"
+			referencedTableName="cascadeonetooneinverse" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="2" author="meri">
+		<comment>Create  data for default One-To-One configuration test case.</comment>
+
+		<insert tableName="cascadeonetooneinverse">
+			<column name="id" valueNumeric="5" />
+		</insert>
+		<insert tableName="cascadeonetooneowner">
+			<column name="id" valueNumeric="1" />
+			<column name="inverse_id" valueNumeric="5" />
+		</insert>
+		<insert tableName="cascadeonetooneinverse">
+			<column name="id" valueNumeric="2" />
+		</insert>
+		<insert tableName="cascadeonetooneowner">
+			<column name="id" valueNumeric="2" />
+			<column name="inverse_id" valueNumeric="2" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="3" author="meri">
+		<comment>Create structure for One-To-One default configuration test case.</comment>
+
+		<createTable tableName="onetooneowner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="inverse_id" type="integer">
+				<constraints unique="true" />
+			</column>
+		</createTable>
+		<createTable tableName="onetooneinverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_onetooneownerinverse"
+			baseTableName="onetooneowner" baseColumnNames="inverse_id"
+			referencedTableName="onetooneinverse" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="4" author="meri">
+		<comment>Create  data for default One-To-One configuration test case.</comment>
+
+		<insert tableName="onetooneinverse">
+			<column name="id" valueNumeric="5" />
+		</insert>
+		<insert tableName="onetooneowner">
+			<column name="id" valueNumeric="1" />
+			<column name="inverse_id" valueNumeric="5" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="5" author="meri">
+		<comment>Create structure for One-To-One default configuration test case.</comment>
+
+		<createTable tableName="cascadefirst">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="somevalue" type="varchar(100)"/>
+		</createTable>
+		<createTable tableName="cascadesecond">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="cascadethird">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="somevalue" type="varchar(100)"/>
+		</createTable>
+		<createTable tableName="cascadefourth">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="cascadefirst_cascadesecond">
+			<column name="first_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="second_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="cascadesecond_cascadethird">
+			<column name="second_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="third_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="cascadethird_cascadefourth">
+			<column name="third_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="fourth_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_cascadesecond"
+			baseTableName="cascadefirst_cascadesecond" baseColumnNames="second_id"
+			referencedTableName="cascadesecond" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_cascadefirst"
+			baseTableName="cascadefirst_cascadesecond" baseColumnNames="first_id"
+			referencedTableName="cascadefirst" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="6" author="meri">
+		<comment>Create  data for default One-To-One configuration test case.</comment>
+
+		<insert tableName="cascadefirst">
+			<column name="id" valueNumeric="1" />
+		</insert>
+		<insert tableName="cascadesecond">
+			<column name="id" valueNumeric="1" />
+		</insert>
+		<insert tableName="cascadethird">
+			<column name="id" valueNumeric="1" />
+		</insert>
+		<insert tableName="cascadefirst_cascadesecond">
+			<column name="first_id" valueNumeric="1" />
+			<column name="second_id" valueNumeric="1" />
+		</insert>
+		<insert tableName="cascadesecond_cascadethird">
+			<column name="second_id" valueNumeric="1" />
+			<column name="third_id" valueNumeric="1" />
+		</insert>
+
+		<insert tableName="cascadefirst">
+			<column name="id" valueNumeric="2" />
+			<column name="somevalue" value="clean" />
+		</insert>
+		<insert tableName="cascadesecond">
+			<column name="id" valueNumeric="2" />
+		</insert>
+		<insert tableName="cascadethird">
+			<column name="id" valueNumeric="2" />
+			<column name="somevalue" value="clean" />
+		</insert>
+		<insert tableName="cascadefirst_cascadesecond">
+			<column name="first_id" valueNumeric="2" />
+			<column name="second_id" valueNumeric="2" />
+		</insert>
+		<insert tableName="cascadesecond_cascadethird">
+			<column name="second_id" valueNumeric="2" />
+			<column name="third_id" valueNumeric="2" />
+		</insert>
+
+		<insert tableName="cascadefirst">
+			<column name="id" valueNumeric="3" />
+			<column name="somevalue" value="clean" />
+		</insert>
+		<insert tableName="cascadesecond">
+			<column name="id" valueNumeric="3" />
+		</insert>
+		<insert tableName="cascadethird">
+			<column name="id" valueNumeric="3" />
+			<column name="somevalue" value="clean" />
+		</insert>
+		<insert tableName="cascadefirst_cascadesecond">
+			<column name="first_id" valueNumeric="3" />
+			<column name="second_id" valueNumeric="3" />
+		</insert>
+		<insert tableName="cascadesecond_cascadethird">
+			<column name="second_id" valueNumeric="3" />
+			<column name="third_id" valueNumeric="3" />
+		</insert>
+	</changeSet>
+</databaseChangeLog>

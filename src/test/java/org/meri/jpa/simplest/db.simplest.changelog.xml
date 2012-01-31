@@ -1,0 +1,35 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet id="1" author="meri">
+		<comment>Create table structure for users and shared items.</comment>
+
+		<createTable tableName="person">
+			<column name="user_id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="username" type="varchar(1500)">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="firstname" type="varchar(1500)"/>
+			<column name="lastname" type="varchar(1500)"/>
+			<column name="homepage" type="varchar(1500)"/>
+			<column name="about" type="varchar(1500)"/>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2" author="meri" context="test">
+		<comment>Add some test data.</comment>
+		<insert tableName="person">
+			<column name="user_id" valueNumeric="1" />
+			<column name="userName" value="slash" />
+			<column name="firstName" value="Simon" />
+			<column name="lastName" value="Worth" />
+			<column name="homePage" value="http://www.slash.blogs.net" />
+			<column name="about" value="I like nature and writing my blog. The blog contains my opinions about everything." />
+		</insert>
+	</changeSet>
+
+</databaseChangeLog>

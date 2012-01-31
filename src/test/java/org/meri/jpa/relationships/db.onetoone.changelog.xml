@@ -1,0 +1,298 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet id="1" author="meri">
+		<comment>Create table structure for users and shared items.</comment>
+
+		<createTable tableName="person">
+			<column name="user_id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="username" type="varchar(1500)">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="firstname" type="varchar(1500)" />
+			<column name="lastname" type="varchar(1500)" />
+			<column name="homepage" type="varchar(1500)" />
+			<column name="about" type="varchar(1500)" />
+		</createTable>
+		<createTable tableName="facebook_account">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="owner_id" type="integer">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="username" type="varchar(1500)">
+				<constraints unique="true" nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_facebook_user"
+			baseTableName="facebook_account" baseColumnNames="owner_id"
+			referencedTableName="person" referencedColumnNames="user_id" />
+
+		<createTable tableName="twitter_account">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="owner_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="username" type="varchar(1500)">
+				<constraints unique="true" nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_twitter_user"
+			baseTableName="twitter_account" baseColumnNames="owner_id"
+			referencedTableName="person" referencedColumnNames="user_id" />
+
+	</changeSet>
+
+	<changeSet id="2" author="meri" context="test">
+		<comment>Add some test data.</comment>
+		<insert tableName="person">
+			<column name="user_id" valueNumeric="1" />
+			<column name="userName" value="slash" />
+			<column name="firstName" value="Simon" />
+			<column name="lastName" value="Worth" />
+			<column name="homePage" value="http://www.slash.blogs.net" />
+			<column name="about"
+				value="I like nature and writing my blog. The blog contains my opinions about everything." />
+		</insert>
+		<insert tableName="facebook_account">
+			<column name="id" valueNumeric="1" />
+			<column name="owner_id" valueNumeric="1" />
+			<column name="userName" value="slashfacebook" />
+		</insert>
+		<insert tableName="twitter_account">
+			<column name="id" valueNumeric="1" />
+			<column name="owner_id" valueNumeric="1" />
+			<column name="userName" value="slashNature" />
+		</insert>
+		<insert tableName="twitter_account">
+			<column name="id" valueNumeric="2" />
+			<column name="owner_id" valueNumeric="1" />
+			<column name="userName" value="slashProgramming" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="3" author="meri">
+		<comment>Create structure for One-To-One default configuration test case.</comment>
+
+		<createTable tableName="onetooneowner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="inverse_id" type="integer">
+				<constraints unique="true" />
+			</column>
+		</createTable>
+		<createTable tableName="onetooneinverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_onetooneownerinverse"
+			baseTableName="onetooneowner" baseColumnNames="inverse_id"
+			referencedTableName="onetooneinverse" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="4" author="meri">
+		<comment>Create  data for default One-To-One configuration test case.</comment>
+
+		<insert tableName="onetooneinverse">
+			<column name="id" valueNumeric="5" />
+		</insert>
+		<insert tableName="onetooneowner">
+			<column name="id" valueNumeric="1" />
+			<column name="inverse_id" valueNumeric="5" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="5" author="meri">
+		<comment>Create structure for One-To-One default configuration test case.</comment>
+
+		<createTable tableName="lazyonetooneowner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="inverse_id" type="integer">
+				<constraints unique="true" />
+			</column>
+		</createTable>
+		<createTable tableName="lazyonetooneinverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_lazyonetooneownerinverse"
+			baseTableName="lazyonetooneowner" baseColumnNames="inverse_id"
+			referencedTableName="lazyonetooneinverse" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="6" author="meri">
+		<comment>Create  data for default One-To-One configuration test case.</comment>
+
+		<insert tableName="lazyonetooneinverse">
+			<column name="id" valueNumeric="5" />
+		</insert>
+		<insert tableName="lazyonetooneowner">
+			<column name="id" valueNumeric="1" />
+			<column name="inverse_id" valueNumeric="5" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="7" author="meri">
+		<comment>Create structure for One-To-One default configuration test case.</comment>
+
+		<createTable tableName="columnonetooneowner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="customcolumn" type="integer">
+				<constraints unique="true" />
+			</column>
+		</createTable>
+		<createTable tableName="columnonetooneinverse">
+			<column name="inverse_id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_columnonetooneownerinverse"
+			baseTableName="columnonetooneowner" baseColumnNames="customcolumn"
+			referencedTableName="columnonetooneinverse" referencedColumnNames="inverse_id" />
+	</changeSet>
+
+	<changeSet id="8" author="meri">
+		<comment>Create  data for default One-To-One configuration test case.</comment>
+
+		<insert tableName="columnonetooneinverse">
+			<column name="inverse_id" valueNumeric="5" />
+		</insert>
+		<insert tableName="columnonetooneowner">
+			<column name="id" valueNumeric="1" />
+			<column name="customcolumn" valueNumeric="5" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="9" author="meri">
+		<comment>Create structure for One-To-One default configuration test case.</comment>
+
+		<createTable tableName="tableonetooneowner">
+			<column name="owner_id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="tableonetooneinverse">
+			<column name="inverse_id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="TableOneToOneJoin">
+			<column name="join_inverse_id" type="integer">
+				<constraints unique="true" nullable="true" />
+			</column>
+			<column name="join_owner_id" type="integer">
+				<constraints unique="true" nullable="true" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_tableonetooneownerinverse_1"
+			baseTableName="TableOneToOneJoin" baseColumnNames="join_owner_id"
+			referencedTableName="tableonetooneowner" referencedColumnNames="owner_id" />
+		<addForeignKeyConstraint constraintName="fk_tableonetooneownerinverse_2"
+			baseTableName="TableOneToOneJoin" baseColumnNames="join_inverse_id"
+			referencedTableName="tableonetooneinverse" referencedColumnNames="inverse_id" />
+	</changeSet>
+
+	<changeSet id="10" author="meri">
+		<comment>Create  data for default One-To-One configuration test case.</comment>
+
+		<insert tableName="tableonetooneinverse">
+			<column name="inverse_id" valueNumeric="5" />
+		</insert>
+		<insert tableName="tableonetooneowner">
+			<column name="owner_id" valueNumeric="1" />
+		</insert>
+		<insert tableName="TableOneToOneJoin">
+			<column name="join_owner_id" valueNumeric="1" />
+			<column name="join_inverse_id" valueNumeric="5" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="11" author="meri">
+		<comment>Create structure for One-To-One default configuration test case.</comment>
+
+		<createTable tableName="primaryonetooneowner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="primaryonetooneinverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_primaryonetooneownerinverse"
+			baseTableName="primaryonetooneowner" baseColumnNames="id"
+			referencedTableName="primaryonetooneinverse" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="12" author="meri">
+		<comment>Create  data for default One-To-One configuration test case.</comment>
+
+		<insert tableName="primaryonetooneinverse">
+			<column name="id" valueNumeric="1" />
+		</insert>
+		<insert tableName="primaryonetooneowner">
+			<column name="id" valueNumeric="1" />
+		</insert>
+	</changeSet>
+
+
+	<changeSet id="13" author="meri">
+		<comment>Create structure for One-To-One default configuration test case.</comment>
+
+		<createTable tableName="composedprimaryonetooneowner">
+			<column name="id1" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="id2" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="composedprimaryonetooneinverse">
+			<column name="id1" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="id2" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addPrimaryKey tableName="composedprimaryonetooneowner"
+			columnNames="id1,id2" constraintName="pk_composedprimaryonetooneowner" />
+		<addPrimaryKey tableName="composedprimaryonetooneinverse"
+			columnNames="id1,id2" constraintName="pk_composedprimaryonetooneinverse" />
+
+
+		<addForeignKeyConstraint constraintName="fk_composedprimaryonetooneownerinverse"
+			baseTableName="composedprimaryonetooneowner" baseColumnNames="id1,id2"
+			referencedTableName="composedprimaryonetooneinverse"
+			referencedColumnNames="id1,id2" />
+	</changeSet>
+
+	<changeSet id="14" author="meri">
+		<comment>Create  data for default One-To-One configuration test case.</comment>
+
+		<insert tableName="composedprimaryonetooneinverse">
+			<column name="id1" valueNumeric="1" />
+			<column name="id2" valueNumeric="2" />
+		</insert>
+		<insert tableName="composedprimaryonetooneowner">
+			<column name="id1" valueNumeric="1" />
+			<column name="id2" valueNumeric="2" />
+		</insert>
+	</changeSet>
+
+</databaseChangeLog>
