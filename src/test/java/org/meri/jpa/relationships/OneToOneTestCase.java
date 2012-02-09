@@ -21,6 +21,7 @@ import org.meri.jpa.relationships.entities.onetoone.PrimaryOneToOneOwner;
 import org.meri.jpa.relationships.entities.onetoone.TableOneToOneInverse;
 import org.meri.jpa.relationships.entities.onetoone.TableOneToOneOwner;
 
+//FIXME: upratat changelog
 public class OneToOneTestCase extends AbstractRelationshipTestCase {
 
   /**
@@ -77,9 +78,8 @@ public class OneToOneTestCase extends AbstractRelationshipTestCase {
     em.getTransaction().begin();
     
     LazyOneToOneOwner owner = new LazyOneToOneOwner(10);
-    em.persist(owner);
-    
     try {
+      em.persist(owner);
       em.getTransaction().commit();
     } catch (RuntimeException ex) {
       em.close();
@@ -98,9 +98,8 @@ public class OneToOneTestCase extends AbstractRelationshipTestCase {
     em.getTransaction().begin();
     
     LazyOneToOneInverse inverse = new LazyOneToOneInverse(10);
-    em.persist(inverse);
-    
     try {
+      em.persist(inverse);
       em.getTransaction().commit();
     } catch (RuntimeException ex) {
       em.close();
@@ -170,8 +169,8 @@ public class OneToOneTestCase extends AbstractRelationshipTestCase {
     //create relationship between owner and inverse
     owner.setInverse(inverse);
     inverse.setOwner(owner);
-    updateOrInsert(inverse);
-    updateOrInsert(owner);
+    mergeAndCommit(inverse);
+    mergeAndCommit(owner);
 
     //owner loading works correctly
     em = factory.createEntityManager();

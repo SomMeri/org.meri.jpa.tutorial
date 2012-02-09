@@ -52,6 +52,7 @@
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
+          
         </configuration>
       </plugin>
 			<plugin>
@@ -70,6 +71,7 @@
 						<phase>process-classes</phase>
 						<goals>
 							<goal>test-enhance</goal>
+							<goal>enhance</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -86,7 +88,7 @@
 		<pluginManagement>
 		<plugins>
 		
-						<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -107,6 +109,7 @@
 										</versionRange>
 										<goals>
 											<goal>test-enhance</goal>
+											<goal>enhance</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>

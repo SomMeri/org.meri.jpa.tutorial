@@ -66,7 +66,7 @@ public abstract class AbstractTestCase {
     em.close();
   }
 
-  protected void updateOrInsert(Object object) {
+  protected void mergeAndCommit(Object object) {
     EntityManager em = getFactory().createEntityManager();
     em.getTransaction().begin();
 

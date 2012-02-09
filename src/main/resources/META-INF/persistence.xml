@@ -3,7 +3,9 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
 	<persistence-unit name="Simplest" transaction-type="RESOURCE_LOCAL">
+		<!-- OpenJPA persistence provider -->
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+		<!-- JNDI name of the datasource -->
         <jta-data-source>jdbc/jpaDemoDB</jta-data-source>
 
 		<!-- JPA entities must be registered here -->
@@ -63,11 +65,16 @@
 		<class>org.meri.jpa.relationships.entities.onetomany_manytoone.OrphanOneToManyInverse</class>
 		<class>org.meri.jpa.relationships.entities.onetomany_manytoone.OrphanOwner</class>
 		<class>org.meri.jpa.relationships.entities.onetomany_manytoone.OrphanInverse</class>
+		<class>org.meri.jpa.relationships.entities.manytomany.MtmCollectionOwner</class>
+		<class>org.meri.jpa.relationships.entities.manytomany.MtmCollectionInverse</class>
 		
 		<!-- other properties -->
 		<properties>
 			<!-- Do not use in production, this will generate a lot of output. -->
 			<property name="openjpa.Log" value="SQL=TRACE"/>
+			<!-- load foreign key information from the database	  -->
+			<!-- workaround OpenJPA issue https://issues.apache.org/jira/browse/OPENJPA-435  -->
+			<property name="openjpa.jdbc.SchemaFactory" value="native(ForeignKeys=true)"/> 
 		</properties>
                 
 	</persistence-unit>
@@ -91,6 +98,9 @@
 		<properties>
 			<!-- Do not use in production, this will generate a lot of output. -->
 			<property name="openjpa.Log" value="SQL=TRACE"/>
+			<!-- load foreign key information from the database	  -->
+			<!-- workaround OpenJPA issue https://issues.apache.org/jira/browse/OPENJPA-435  -->
+			<property name="openjpa.jdbc.SchemaFactory" value="native(ForeignKeys=true)"/> 
 		</properties>
                 
 	</persistence-unit>

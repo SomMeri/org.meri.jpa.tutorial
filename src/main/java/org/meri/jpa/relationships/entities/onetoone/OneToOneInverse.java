@@ -13,6 +13,14 @@ public class OneToOneInverse {
   @OneToOne(mappedBy="inverse")
   private OneToOneOwner owner;
 
+  public OneToOneInverse() {
+  }
+
+  public OneToOneInverse(int id) {
+    this();
+    this.id = id; 
+  }
+
   public long getId() {
     return id;
   }

@@ -1,15 +1,17 @@
 package org.meri.jpa.relationships;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 
 import org.junit.Test;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.CollectionInverse;
@@ -37,9 +39,10 @@ import org.meri.jpa.relationships.entities.onetomany_manytoone.UnidirectionalMan
 import org.meri.jpa.relationships.entities.onetomany_manytoone.UnidirectionalManyToOneOwner;
 
 
+//FIXME: upratat changelog
 public class OneToMany_ManyToOneTestCase extends AbstractRelationshipTestCase {
 
-  protected static final String CHANGELOG_LOCATION = RelationshipsConstants.ONE_TO_MANY_CHANGELOG_LOCATION;
+  protected static final String CHANGELOG_LOCATION = RelationshipsConstants.ONE_TO_MANY_CHANGELOG_PATH;
 
   @Override
   protected String getInitialChangeLog() {
@@ -219,8 +222,8 @@ public class OneToMany_ManyToOneTestCase extends AbstractRelationshipTestCase {
 
     //create reference between owner and inverse and save them
     owner.setInverses(Arrays.asList(inverse));
-    updateOrInsert(inverse);
-    updateOrInsert(owner);
+    mergeAndCommit(inverse);
+    mergeAndCommit(owner);
 
     //load the owner again 
     em = factory.createEntityManager();
@@ -245,13 +248,17 @@ public class OneToMany_ManyToOneTestCase extends AbstractRelationshipTestCase {
 
   @Test
   public void orphanRemovalOneToMany() {
-    EntityManager em = factory.createEntityManager();
-    em.getTransaction().begin();
     // check initial data - inverse is available
-    OrphanOneToManyInverse inverse = em.find(OrphanOneToManyInverse.class, 5);
-    assertNotNull(inverse);
+    assertEntityExists(OrphanOneToManyInverse.class, 5);
+
     // load the owner and remove orphan
-    OrphanOneToManyOwner owner = em.find(OrphanOneToManyOwner.class, 1);
+    EntityManager em = factory.createEntityManager();
+    OrphanOneToManyOwner owner;
+    owner = em.find(OrphanOneToManyOwner.class, 1);
+    OrphanOneToManyInverse inverse;
+    inverse = em.find(OrphanOneToManyInverse.class, 5);
+
+    em.getTransaction().begin();
     owner.getInverses().remove(inverse);
     // commit the transaction and close manager
     em.getTransaction().commit();
@@ -259,6 +266,163 @@ public class OneToMany_ManyToOneTestCase extends AbstractRelationshipTestCase {
   
     // inverse without owner has been removed
     assertEntityNOTExists(OrphanOneToManyInverse.class, 5);
+  }
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  @Test
+  public void relationshipSaveOnlyOwner() {
+    EntityManager em = getFactory().createEntityManager();
+    // load two entities
+    CollectionOwner owner = em.find(CollectionOwner.class, 6);
+    CollectionInverse inverse = em.find(CollectionInverse.class, 6);
+    //check initial data - there is no relationship
+    assertTrue(inverse.getOwners().isEmpty());
+    
+    // create a relationship between entities
+    owner.setInverse(inverse);
+    inverse.getOwners().add(owner);
+    // detached inverse will be ignored by commit
+    em.detach(inverse);
+    em.getTransaction().begin();
+    // persist only the owner - it is the only loaded entity
+    em.getTransaction().commit();
+    em.close();
+
+    // relationship was saved
+    EntityManager em1 = getFactory().createEntityManager();
+    CollectionInverse inverseCheck = em1.find(CollectionInverse.class, 6);
+    assertFalse(inverseCheck.getOwners().isEmpty());
+    em1.close();
+  }
+
+  @Test
+  public void relationshipSaveOnlyInverse() {
+    EntityManager em = getFactory().createEntityManager();
+    // load two entities
+    CollectionOwner owner = em.find(CollectionOwner.class, 7);
+    CollectionInverse inverse = em.find(CollectionInverse.class, 7);
+    //check initial data - there is no relationship
+    assertTrue(inverse.getOwners().isEmpty());
+
+    // create a relationship between entities
+    owner.setInverse(inverse);
+    inverse.getOwners().add(owner);
+    // detached owner will be ignored by commit
+    em.detach(owner);
+    em.getTransaction().begin();
+    // persist only the inverse - it is the only loaded entity
+    em.getTransaction().commit();
+    em.close();
+
+    // relationship was not saved
+    EntityManager em1 = getFactory().createEntityManager();
+    CollectionOwner ownerCheck = em1.find(CollectionOwner.class, 7);
+    assertNull(ownerCheck.getInverse());
+    em1.close();
+  }
+
+  @Test
+  public void relationshipDeleteOnlyInverse() {
+    EntityManager em = getFactory().createEntityManager();
+    // check initial data
+    CollectionOwner owner = em.find(CollectionOwner.class, 4);
+    CollectionInverse inverse = em.find(CollectionInverse.class, 4);
+    assertTrue(inverse.getOwners().contains(owner));
+    // detached owner will be ignored by commit
+    em.detach(owner);
+    // persist only the inverse
+    em.getTransaction().begin();
+    try {
+      em.remove(inverse);
+      em.getTransaction().commit();
+    } catch (PersistenceException ex) {
+      em.close();
+      return;
+    }
+    
+    fail("The delete was supposed to throw an exception.");
+
+  }
+
+  @Test
+  public void relationshipDeleteOnlyOwner() {
+    EntityManager em = getFactory().createEntityManager();
+    // check initial data
+    CollectionOwner owner = em.find(CollectionOwner.class, 3);
+    CollectionInverse inverse = em.find(CollectionInverse.class, 3);
+    assertTrue(inverse.getOwners().contains(owner));
+    // detached owner will be ignored by commit
+    em.detach(inverse);
+    // persist only the inverse
+    em.getTransaction().begin();
+    em.remove(owner);
+    em.getTransaction().commit();
+    em.close();
+    
+    // relationship was deleted
+    EntityManager em1 = getFactory().createEntityManager();
+    CollectionInverse inverseCheck = em1.find(CollectionInverse.class, 3);
+    assertTrue(inverseCheck.getOwners().isEmpty());
+    em1.close();
   }
 
 }

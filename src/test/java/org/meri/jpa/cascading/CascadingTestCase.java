@@ -2,6 +2,7 @@ package org.meri.jpa.cascading;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -10,7 +11,6 @@ import java.math.BigDecimal;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceException;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -26,6 +26,7 @@ import org.meri.jpa.cascading.entities.CascadeThird;
 import org.meri.jpa.cascading.entities.OneToOneInverse;
 import org.meri.jpa.cascading.entities.OneToOneOwner;
 
+//FIXME: upratat changelog
 public class CascadingTestCase extends AbstractTestCase {
 
   protected static final BigDecimal SIMON_SLASH_ID = CascadingConstants.SIMON_SLASH_ID;
@@ -33,33 +34,6 @@ public class CascadingTestCase extends AbstractTestCase {
   protected static final String CHANGELOG_LOCATION = CascadingConstants.CHANGELOG_LOCATION;
 
   protected static EntityManagerFactory factory;
-
-  @Test
-  public void wrongOrderNoCascade() {
-    // create a relationship between entities
-    OneToOneOwner owner = new OneToOneOwner(8);
-    OneToOneInverse inverse = new OneToOneInverse(8);
-    owner.setInverse(inverse);
-    inverse.setOwner(owner);
-
-    // persist the owner first
-    EntityManager em = getFactory().createEntityManager();
-    em.getTransaction().begin();
-
-    em.persist(owner);
-    em.persist(inverse);
-
-    try {
-      em.getTransaction().commit();
-    } catch (PersistenceException ex) {
-      // we tried to save the owner first
-      // that is wrong
-      em.close();
-      return;
-    }
-
-    fail("It was supposed to throw an exception.");
-  }
 
   @Test
   public void wrongOrderCascade() {
@@ -75,17 +49,15 @@ public class CascadingTestCase extends AbstractTestCase {
     // persist the owner first
     em.persist(owner);
     em.persist(inverse);
+    em.getTransaction().commit();
+    em.close();
 
-    // wrong order - commit throws an exception
-    try {
-      em.getTransaction().commit();
-    } catch (PersistenceException ex) {
-      em.close();
-      return;
-    }
-
-    fail("It was supposed to throw an exception.");
-  }
+    //check saved data
+    EntityManager em1 = getFactory().createEntityManager();
+    CascadeOneToOneInverse inverseCheck = em1.find(CascadeOneToOneInverse.class, 7);
+    assertNotNull(inverseCheck.getOwner());
+    em1.close();
+}
 
   @Test
   public void basicNoCascadeInverse() {
@@ -174,24 +146,15 @@ public class CascadingTestCase extends AbstractTestCase {
     owner.setInverse(inverse);
     inverse.setOwner(owner);
 
-    // persist only the inverse
+    // persist only the owner
     EntityManager em = getFactory().createEntityManager();
     em.getTransaction().begin();
-    try {
-      em.merge(owner);
-      em.getTransaction().commit();
-    } catch (PersistenceException ex) {
-      // Cascading itself does not solve everything.
-      // The owner was merged first, then the merge
-      // cascaded to the inverse.
+    em.merge(owner);
+    em.getTransaction().commit();
 
-      // Therefore, JPA will try to insert the owner
-      // first which will result in foreign key violation.
-      em.close();
-      return;
-    }
-
-    fail("JPA was supposed to throw an exception.");
+    // the merge operation was cascaded to the inverse too
+    // the inverse was saved to the database
+    assertEntityExists(CascadeOneToOneInverse.class, 12);
   }
 
   @Test

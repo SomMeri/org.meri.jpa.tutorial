@@ -28,6 +28,32 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			<column name="id" valueNumeric="1" />
 			<column name="inverse_id" valueNumeric="5" />
 		</insert>
+		<insert tableName="collectioninverse">
+			<column name="id" valueNumeric="3" />
+		</insert>
+		<insert tableName="collectionowner">
+			<column name="id" valueNumeric="3" />
+			<column name="inverse_id" valueNumeric="3" />
+		</insert>
+		<insert tableName="collectioninverse">
+			<column name="id" valueNumeric="4" />
+		</insert>
+		<insert tableName="collectionowner">
+			<column name="id" valueNumeric="4" />
+			<column name="inverse_id" valueNumeric="4" />
+		</insert>
+		<insert tableName="collectioninverse">
+			<column name="id" valueNumeric="6" />
+		</insert>
+		<insert tableName="collectionowner">
+			<column name="id" valueNumeric="6" />
+		</insert>
+		<insert tableName="collectioninverse">
+			<column name="id" valueNumeric="7" />
+		</insert>
+		<insert tableName="collectionowner">
+			<column name="id" valueNumeric="7" />
+		</insert>
 	</changeSet>
 
 	<changeSet id="3" author="meri">
@@ -215,7 +241,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 		</createTable>
 		<createTable tableName="OneToManyOwner_OneToManyInverse">
 			<column name="inverses_id" type="integer">
-				<constraints nullable="false" />
+				<constraints nullable="false" unique="true"/>
 			</column>
 			<column name="OneToManyOwner_id" type="integer">
 				<constraints nullable="false" />

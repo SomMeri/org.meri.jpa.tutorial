@@ -12,6 +12,14 @@ public class OneToOneOwner {
   @OneToOne
   private OneToOneInverse inverse;
 
+  public OneToOneOwner() {
+  }
+
+  public OneToOneOwner(int id) {
+    this();
+    this.id = id;
+  }
+
   public long getId() {
     return id;
   }

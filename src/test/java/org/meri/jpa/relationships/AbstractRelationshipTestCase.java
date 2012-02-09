@@ -9,11 +9,12 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.meri.jpa.AbstractTestCase;
 
+//FIXME: upratat changelog
 public class AbstractRelationshipTestCase extends AbstractTestCase {
 
   protected static final BigDecimal SIMON_SLASH_ID = RelationshipsConstants.SIMON_SLASH_ID;
   protected static final String PERSISTENCE_UNIT = RelationshipsConstants.PERSISTENCE_UNIT;
-  protected static final String CHANGELOG_LOCATION = RelationshipsConstants.ONE_TO_ONE_CHANGELOG_LOCATION;
+  protected static final String CHANGELOG_LOCATION = RelationshipsConstants.ONE_TO_ONE_CHANGELOG_PATH;
 
   protected static EntityManagerFactory factory;
 
