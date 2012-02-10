@@ -266,13 +266,6 @@ public class LoadEntityTest extends AbstractTestCase {
     assertNotSame(person1, person2);
   }
 
-  // FIXME: contains - do
-  // FIXME: refresh - later
-  // FIXME: joinTransaction - skip
-  // FIXME: lock - skip
-
-  // FIXME: metamodel
-
   @BeforeClass
   public static void createFactory() {
     factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);

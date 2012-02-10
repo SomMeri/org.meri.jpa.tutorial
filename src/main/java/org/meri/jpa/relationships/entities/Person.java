@@ -1,10 +1,13 @@
 package org.meri.jpa.relationships.entities;
 
 import java.util.Collection;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -26,6 +29,10 @@ public class Person {
   
   @OneToMany(mappedBy="owner")
   private Collection<TwitterAccount> twitterAccounts;
+
+  @ManyToMany(mappedBy="followers")
+  @MapKey(name="accountName")
+  private Map<String, TwitterAccount> twitterFollowing;
 
   public Person() {
   }
@@ -103,6 +110,14 @@ public class Person {
 
   public void setTwitterAccounts(Collection<TwitterAccount> twitterAccounts) {
     this.twitterAccounts = twitterAccounts;
+  }
+
+  public Map<String, TwitterAccount> getTwitterFollowing() {
+    return twitterFollowing;
+  }
+
+  public void setTwitterFollowing(Map<String, TwitterAccount> twitterFollowing) {
+    this.twitterFollowing = twitterFollowing;
   }
 
   @Override

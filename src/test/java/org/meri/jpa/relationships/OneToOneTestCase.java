@@ -10,8 +10,6 @@ import javax.persistence.JoinTable;
 
 import org.junit.Test;
 import org.meri.jpa.relationships.entities.onetoone.ColumnOneToOneOwner;
-import org.meri.jpa.relationships.entities.onetoone.ComposedPrimaryOneToOneInverse;
-import org.meri.jpa.relationships.entities.onetoone.ComposedPrimaryOneToOneOwner;
 import org.meri.jpa.relationships.entities.onetoone.LazyOneToOneInverse;
 import org.meri.jpa.relationships.entities.onetoone.LazyOneToOneOwner;
 import org.meri.jpa.relationships.entities.onetoone.OneToOneInverse;
@@ -223,31 +221,6 @@ public class OneToOneTestCase extends AbstractRelationshipTestCase {
     em.close();
     
     assertEquals(1, owner.getInverse().getId());
-  }
-
-  @Test
-  public void persistComposedPrimaryOneToOne() {
-    EntityManager em = factory.createEntityManager();
-    em.getTransaction().begin();
-    
-    ComposedPrimaryOneToOneOwner owner = new ComposedPrimaryOneToOneOwner(10, 15);
-    owner.setInverse(new ComposedPrimaryOneToOneInverse(10, 15));
-    em.persist(owner.getInverse());
-    em.persist(owner);
-    
-    em.getTransaction().commit();
-    em.close();
-    //FIXME: not done
-  }
-
-  @Test
-  public void loadComposedPrimaryOneToOne() {
-    EntityManager em = factory.createEntityManager();
-    ComposedPrimaryOneToOneOwner owner = em.find(ComposedPrimaryOneToOneOwner.class, 1);
-    em.close();
-    
-    assertEquals(1, owner.getInverse().getId1());
-    //FIXME: not done
   }
 
 }

@@ -14,6 +14,9 @@ public class ColumnOneToOneOwner {
   @JoinColumn(name="customcolumn")
   private ColumnOneToOneInverse inverse;
 
+  public ColumnOneToOneOwner() {
+  }
+
   public ColumnOneToOneOwner(int id) {
     this.id = id;
   }

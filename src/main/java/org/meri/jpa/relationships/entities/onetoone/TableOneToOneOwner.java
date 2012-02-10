@@ -22,6 +22,9 @@ public class TableOneToOneOwner {
   )
   private TableOneToOneInverse inverse;
 
+  public TableOneToOneOwner() {
+  }
+
   public TableOneToOneOwner(int id) {
     this.id = id;
   }

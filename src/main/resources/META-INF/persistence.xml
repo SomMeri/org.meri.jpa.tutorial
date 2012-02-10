@@ -10,6 +10,8 @@
 
 		<!-- JPA entities must be registered here -->
 		<class>org.meri.jpa.simplest.entities.Person</class>
+		<class>org.persistence.Entity1</class>
+		<class>org.persistence.Entity2</class>
                 
 		<!-- other properties -->
 		<properties>

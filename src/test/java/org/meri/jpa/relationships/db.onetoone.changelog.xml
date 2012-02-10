@@ -40,13 +40,28 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			<column name="owner_id" type="integer">
 				<constraints nullable="false" />
 			</column>
-			<column name="username" type="varchar(1500)">
+			<column name="accountname" type="varchar(1500)">
 				<constraints unique="true" nullable="false" />
 			</column>
 		</createTable>
 		<addForeignKeyConstraint constraintName="fk_twitter_user"
 			baseTableName="twitter_account" baseColumnNames="owner_id"
 			referencedTableName="person" referencedColumnNames="user_id" />
+
+		<createTable tableName="twitter_account_person">
+			<column name="followers_user_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="twitteraccount_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_twitter_account_person_1"
+			baseTableName="twitter_account_person" baseColumnNames="followers_user_id"
+			referencedTableName="person" referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="fk_twitter_account_person_2"
+			baseTableName="twitter_account_person" baseColumnNames="twitteraccount_id"
+			referencedTableName="twitter_account" referencedColumnNames="id" />
 
 	</changeSet>
 
@@ -69,12 +84,12 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 		<insert tableName="twitter_account">
 			<column name="id" valueNumeric="1" />
 			<column name="owner_id" valueNumeric="1" />
-			<column name="userName" value="slashNature" />
+			<column name="accountname" value="slashNature" />
 		</insert>
 		<insert tableName="twitter_account">
 			<column name="id" valueNumeric="2" />
 			<column name="owner_id" valueNumeric="1" />
-			<column name="userName" value="slashProgramming" />
+			<column name="accountname" value="slashProgramming" />
 		</insert>
 	</changeSet>
 

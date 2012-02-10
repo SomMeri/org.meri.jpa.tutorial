@@ -12,6 +12,7 @@ public class CascadeFirst {
 
   @Id
   private long id;
+  //FIXME many to may with cascade remove
   @ManyToMany(cascade=CascadeType.ALL)
   private List<CascadeSecond> second;
   private String someValue;

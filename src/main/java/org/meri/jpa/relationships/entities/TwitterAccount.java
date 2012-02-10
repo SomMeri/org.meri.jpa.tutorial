@@ -1,8 +1,11 @@
 package org.meri.jpa.relationships.entities;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -12,11 +15,14 @@ public class TwitterAccount {
   
   @Id
   private long id;
-  private String username;
+  private String accountName;
   
   @ManyToOne
   @JoinColumn(name="owner_id")
   private Person owner;
+
+  @ManyToMany
+  private Set<Person> followers;
 
   public long getId() {
     return id;
@@ -26,12 +32,12 @@ public class TwitterAccount {
     this.id = id;
   }
 
-  public String getUsername() {
-    return username;
+  public String getAccountName() {
+    return accountName;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setAccountName(String accountName) {
+    this.accountName = accountName;
   }
 
   public Person getOwner() {
@@ -42,9 +48,18 @@ public class TwitterAccount {
     this.owner = owner;
   }
 
+  
+  public Set<Person> getFollowers() {
+    return followers;
+  }
+
+  public void setFollowers(Set<Person> followers) {
+    this.followers = followers;
+  }
+
   @Override
   public String toString() {
-    return "TwitterAccount [id=" + id + ", username=" + username + ", owner=" + owner + "]";
+    return "TwitterAccount [id=" + id + ", accountName=" + accountName + ", owner=" + owner + "]";
   }
 
 }
