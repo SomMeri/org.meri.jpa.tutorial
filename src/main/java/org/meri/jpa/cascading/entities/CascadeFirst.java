@@ -12,8 +12,8 @@ public class CascadeFirst {
 
   @Id
   private long id;
-  //FIXME many to may with cascade remove
-  @ManyToMany(cascade=CascadeType.ALL)
+  //FIXME many to may with cascade remove; create new classes and 
+  @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
   private List<CascadeSecond> second;
   private String someValue;
 

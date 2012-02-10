@@ -15,7 +15,7 @@ public class CascadeThird {
   @ManyToMany(mappedBy="third")
   private List<CascadeSecond> second;
 
-  @ManyToMany(cascade=CascadeType.ALL)
+  @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
   private List<CascadeFourth> fourth;
 
   private String someValue;

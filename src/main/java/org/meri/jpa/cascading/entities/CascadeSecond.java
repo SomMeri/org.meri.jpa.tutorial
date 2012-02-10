@@ -17,8 +17,8 @@ public class CascadeSecond {
   @ManyToMany(mappedBy="second")
   private List<CascadeFirst> first = new ArrayList<CascadeFirst>();
   
-  //FIXME many to may with cascade remove
-  @ManyToMany(cascade=CascadeType.ALL)
+  //FIXME many to may with cascade remove test spravit
+  @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
   private List<CascadeThird> third = new ArrayList<CascadeThird>();
 
   public CascadeSecond() {

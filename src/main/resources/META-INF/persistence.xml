@@ -10,8 +10,6 @@
 
 		<!-- JPA entities must be registered here -->
 		<class>org.meri.jpa.simplest.entities.Person</class>
-		<class>org.persistence.Entity1</class>
-		<class>org.persistence.Entity2</class>
                 
 		<!-- other properties -->
 		<properties>
@@ -41,8 +39,6 @@
 		<class>org.meri.jpa.relationships.entities.onetoone.TableOneToOneInverse</class>
 		<class>org.meri.jpa.relationships.entities.onetoone.PrimaryOneToOneOwner</class>
 		<class>org.meri.jpa.relationships.entities.onetoone.PrimaryOneToOneInverse</class>
-		<class>org.meri.jpa.relationships.entities.onetoone.ComposedPrimaryOneToOneOwner</class>
-		<class>org.meri.jpa.relationships.entities.onetoone.ComposedPrimaryOneToOneInverse</class>
 		<class>org.meri.jpa.relationships.entities.onetomany_manytoone.CollectionOwner</class>
 		<class>org.meri.jpa.relationships.entities.onetomany_manytoone.CollectionInverse</class>
 		<class>org.meri.jpa.relationships.entities.onetomany_manytoone.MapOwner</class>
