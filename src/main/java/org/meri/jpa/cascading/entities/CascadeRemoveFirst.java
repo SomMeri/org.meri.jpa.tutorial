@@ -5,22 +5,22 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
-public class CascadeFirst {
+public class CascadeRemoveFirst {
 
   @Id
   private long id;
 
-  @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-  private List<CascadeSecond> second;
+  @OneToMany(cascade=CascadeType.ALL, mappedBy="first")
+  private List<CascadeRemoveSecond> second;
   private String someValue;
 
-  public CascadeFirst() {
+  public CascadeRemoveFirst() {
   }
 
-  public CascadeFirst(int id) {
+  public CascadeRemoveFirst(int id) {
     this();
     this.id = id;
   }
@@ -33,11 +33,11 @@ public class CascadeFirst {
     this.id = id;
   }
 
-  public List<CascadeSecond> getSecond() {
+  public List<CascadeRemoveSecond> getSecond() {
     return second;
   }
 
-  public void setSecond(List<CascadeSecond> second) {
+  public void setSecond(List<CascadeRemoveSecond> second) {
     this.second = second;
   }
 

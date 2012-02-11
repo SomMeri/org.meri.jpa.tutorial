@@ -1,26 +1,23 @@
 package org.meri.jpa.cascading.entities;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class CascadeFirst {
-
+public class CascadeRemoveThird {
   @Id
   private long id;
+  
+  @ManyToOne
+  private CascadeRemoveSecond second;
 
-  @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-  private List<CascadeSecond> second;
   private String someValue;
-
-  public CascadeFirst() {
+  
+  public CascadeRemoveThird() {
   }
 
-  public CascadeFirst(int id) {
+  public CascadeRemoveThird(int id) {
     this();
     this.id = id;
   }
@@ -33,11 +30,11 @@ public class CascadeFirst {
     this.id = id;
   }
 
-  public List<CascadeSecond> getSecond() {
+  public CascadeRemoveSecond getSecond() {
     return second;
   }
 
-  public void setSecond(List<CascadeSecond> second) {
+  public void setSecond(CascadeRemoveSecond second) {
     this.second = second;
   }
 

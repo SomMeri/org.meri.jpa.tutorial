@@ -1,0 +1,161 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet id="1" author="meri">
+		<createTable tableName="MtmCollectionOwner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="MtmCollectionInverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="MtmCollectionJoinTable">
+			<column name="inverses_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="owners_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_MtmCollectionInverse"
+			baseTableName="MtmCollectionJoinTable" baseColumnNames="inverses_id"
+			referencedTableName="MtmCollectionInverse" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_MtmCollectionOwner"
+			baseTableName="MtmCollectionJoinTable" baseColumnNames="owners_id"
+			referencedTableName="MtmCollectionOwner" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="2" author="meri">
+		<insert tableName="MtmCollectionInverse">
+			<column name="id" valueNumeric="5" />
+		</insert>
+		<insert tableName="MtmCollectionOwner">
+			<column name="id" valueNumeric="1" />
+		</insert>
+		<insert tableName="MtmCollectionJoinTable">
+			<column name="inverses_id" valueNumeric="5" />
+			<column name="owners_id" valueNumeric="1" />
+		</insert>
+
+		<insert tableName="MtmCollectionInverse">
+			<column name="id" valueNumeric="6" />
+		</insert>
+		<insert tableName="MtmCollectionOwner">
+			<column name="id" valueNumeric="6" />
+		</insert>
+		<insert tableName="MtmCollectionInverse">
+			<column name="id" valueNumeric="7" />
+		</insert>
+		<insert tableName="MtmCollectionOwner">
+			<column name="id" valueNumeric="7" />
+		</insert>
+
+		<insert tableName="MtmCollectionInverse">
+			<column name="id" valueNumeric="3" />
+		</insert>
+		<insert tableName="MtmCollectionOwner">
+			<column name="id" valueNumeric="3" />
+		</insert>
+		<insert tableName="MtmCollectionJoinTable">
+			<column name="inverses_id" valueNumeric="3" />
+			<column name="owners_id" valueNumeric="3" />
+		</insert>
+		<insert tableName="MtmCollectionInverse">
+			<column name="id" valueNumeric="4" />
+		</insert>
+		<insert tableName="MtmCollectionOwner">
+			<column name="id" valueNumeric="4" />
+		</insert>
+		<insert tableName="MtmCollectionJoinTable">
+			<column name="inverses_id" valueNumeric="4" />
+			<column name="owners_id" valueNumeric="4" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="3" author="meri">
+		<createTable tableName="tblMtmOwner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="varchar(1500)" />
+		</createTable>
+		<createTable tableName="MtmInverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="tblMtmOwner_MtmInverse">
+			<column name="inverses_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="mtmowner_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_MtmInverse"
+			baseTableName="tblMtmOwner_MtmInverse" baseColumnNames="inverses_id"
+			referencedTableName="MtmInverse" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_tblMtmOwner"
+			baseTableName="tblMtmOwner_MtmInverse" baseColumnNames="mtmowner_id"
+			referencedTableName="tblMtmOwner" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="4" author="meri">
+		<insert tableName="MtmInverse">
+			<column name="id" valueNumeric="5" />
+		</insert>
+		<insert tableName="tblMtmOwner">
+			<column name="id" valueNumeric="1" />
+			<column name="name" value="one" />
+		</insert>
+		<insert tableName="tblMtmOwner_MtmInverse">
+			<column name="inverses_id" valueNumeric="5" />
+			<column name="mtmowner_id" valueNumeric="1" />
+		</insert>
+
+		<insert tableName="MtmInverse">
+			<column name="id" valueNumeric="6" />
+		</insert>
+		<insert tableName="tblMtmOwner">
+			<column name="id" valueNumeric="6" />
+			<column name="name" value="six" />
+		</insert>
+		<insert tableName="MtmInverse">
+			<column name="id" valueNumeric="7" />
+		</insert>
+		<insert tableName="tblMtmOwner">
+			<column name="id" valueNumeric="7" />
+			<column name="name" value="seven" />
+		</insert>
+
+		<insert tableName="MtmInverse">
+			<column name="id" valueNumeric="3" />
+		</insert>
+		<insert tableName="tblMtmOwner">
+			<column name="id" valueNumeric="3" />
+			<column name="name" value="three" />
+		</insert>
+		<insert tableName="tblMtmOwner_MtmInverse">
+			<column name="inverses_id" valueNumeric="3" />
+			<column name="mtmowner_id" valueNumeric="3" />
+		</insert>
+		<insert tableName="MtmInverse">
+			<column name="id" valueNumeric="4" />
+		</insert>
+		<insert tableName="tblMtmOwner">
+			<column name="id" valueNumeric="4" />
+			<column name="name" value="four" />
+		</insert>
+		<insert tableName="tblMtmOwner_MtmInverse">
+			<column name="inverses_id" valueNumeric="4" />
+			<column name="mtmowner_id" valueNumeric="4" />
+		</insert>
+	</changeSet>
+</databaseChangeLog>

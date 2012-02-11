@@ -21,6 +21,9 @@ import org.meri.jpa.cascading.entities.CascadeFourth;
 import org.meri.jpa.cascading.entities.CascadeOneToOneInverse;
 import org.meri.jpa.cascading.entities.CascadeOneToOneOwner;
 import org.meri.jpa.cascading.entities.CascadePersistDemo;
+import org.meri.jpa.cascading.entities.CascadeRemoveFirst;
+import org.meri.jpa.cascading.entities.CascadeRemoveSecond;
+import org.meri.jpa.cascading.entities.CascadeRemoveThird;
 import org.meri.jpa.cascading.entities.CascadeSecond;
 import org.meri.jpa.cascading.entities.CascadeThird;
 import org.meri.jpa.cascading.entities.OneToOneInverse;
@@ -183,20 +186,20 @@ public class CascadingTestCase extends AbstractTestCase {
   public void cascadeDeleteThroughUnloaded() {
     // check the data: first, second and third entities are 
     // chained and have the same id
-    checkChain(1);
+    checkRemoveChain(1);
 
     // remove first entity
     EntityManager em = getFactory().createEntityManager();
     em.getTransaction().begin();
-    CascadeFirst first = em.find(CascadeFirst.class, 1);
+    CascadeRemoveFirst first = em.find(CascadeRemoveFirst.class, 1);
     em.remove(first);
     em.getTransaction().commit();
     em.close();
 
     // both second and third entities have been removed
     // Note: neither one was loaded by the original entity manager
-    assertEntityNOTExists(CascadeSecond.class, 1);
-    assertEntityNOTExists(CascadeThird.class, 1);
+    assertEntityNOTExists(CascadeRemoveSecond.class, 1);
+    assertEntityNOTExists(CascadeRemoveThird.class, 1);
   }
 
   @Test
@@ -319,6 +322,18 @@ public class CascadingTestCase extends AbstractTestCase {
     assertEquals(id, initSecond.getId());
     
     CascadeThird initThird = initSecond.getThird().get(0);
+    assertEquals(id, initThird.getId());
+    emInit.close();
+  }
+
+  private void checkRemoveChain(long id) {
+    EntityManager emInit = getFactory().createEntityManager();
+    CascadeRemoveFirst initFirst = emInit.find(CascadeRemoveFirst.class, id);
+    
+    CascadeRemoveSecond initSecond = initFirst.getSecond().get(0);
+    assertEquals(id, initSecond.getId());
+    
+    CascadeRemoveThird initThird = initSecond.getThird().get(0);
     assertEquals(id, initThird.getId());
     emInit.close();
   }

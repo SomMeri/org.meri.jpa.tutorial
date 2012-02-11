@@ -94,7 +94,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="somevalue" type="varchar(100)"/>
+			<column name="somevalue" type="varchar(100)" />
 		</createTable>
 		<createTable tableName="cascadesecond">
 			<column name="id" type="integer">
@@ -105,7 +105,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="somevalue" type="varchar(100)"/>
+			<column name="somevalue" type="varchar(100)" />
 		</createTable>
 		<createTable tableName="cascadefourth">
 			<column name="id" type="integer">
@@ -205,4 +205,51 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			<column name="third_id" valueNumeric="3" />
 		</insert>
 	</changeSet>
+
+	<changeSet id="7" author="meri">
+		<comment>Create structure for One-To-One default configuration test case.</comment>
+
+		<createTable tableName="cascaderemovefirst">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="somevalue" type="varchar(100)" />
+		</createTable>
+		<createTable tableName="cascaderemovesecond">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="first_id" type="integer" />
+		</createTable>
+		<createTable tableName="cascaderemovethird">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="somevalue" type="varchar(100)" />
+			<column name="second_id" type="integer" />
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_cascaderemovesecond"
+			baseTableName="cascaderemovethird" baseColumnNames="second_id"
+			referencedTableName="cascaderemovesecond" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_cascaderemovefirst"
+			baseTableName="cascaderemovesecond" baseColumnNames="first_id"
+			referencedTableName="cascaderemovefirst" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="8" author="meri">
+		<insert tableName="cascaderemovefirst">
+			<column name="id" valueNumeric="1" />
+			<column name="somevalue" value="clean" />
+		</insert>
+		<insert tableName="cascaderemovesecond">
+			<column name="id" valueNumeric="1" />
+			<column name="first_id" valueNumeric="1" />
+		</insert>
+		<insert tableName="cascaderemovethird">
+			<column name="id" valueNumeric="1" />
+			<column name="somevalue" value="clean" />
+			<column name="second_id" valueNumeric="1" />
+		</insert>
+	</changeSet>
+
 </databaseChangeLog>

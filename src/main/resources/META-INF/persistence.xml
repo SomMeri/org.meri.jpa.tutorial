@@ -65,6 +65,11 @@
 		<class>org.meri.jpa.relationships.entities.onetomany_manytoone.OrphanInverse</class>
 		<class>org.meri.jpa.relationships.entities.manytomany.MtmCollectionOwner</class>
 		<class>org.meri.jpa.relationships.entities.manytomany.MtmCollectionInverse</class>
+		<class>org.meri.jpa.relationships.entities.manytomany.MtmOwner</class>
+		<class>org.meri.jpa.relationships.entities.manytomany.MtmInverse</class>
+		<class>org.meri.jpa.relationships.entities.manytomany.TableMtmOwner</class>
+		<class>org.meri.jpa.relationships.entities.manytomany.TableMtmInverse</class>
+		
 		
 		<!-- other properties -->
 		<properties>
@@ -91,6 +96,9 @@
 		<class>org.meri.jpa.cascading.entities.CascadeSecond</class>
 		<class>org.meri.jpa.cascading.entities.CascadeThird</class>
 		<class>org.meri.jpa.cascading.entities.CascadeFourth</class>
+		<class>org.meri.jpa.cascading.entities.CascadeRemoveFirst</class>
+		<class>org.meri.jpa.cascading.entities.CascadeRemoveSecond</class>
+		<class>org.meri.jpa.cascading.entities.CascadeRemoveThird</class>
 		
 		<!-- other properties -->
 		<properties>
