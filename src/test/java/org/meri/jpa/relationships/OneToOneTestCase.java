@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.JoinTable;
 
 import org.junit.Test;
+import org.meri.jpa.relationships.entities.onetoone.ColumnOneToOneInverse;
 import org.meri.jpa.relationships.entities.onetoone.ColumnOneToOneOwner;
 import org.meri.jpa.relationships.entities.onetoone.LazyOneToOneInverse;
 import org.meri.jpa.relationships.entities.onetoone.LazyOneToOneOwner;
@@ -19,7 +20,6 @@ import org.meri.jpa.relationships.entities.onetoone.PrimaryOneToOneOwner;
 import org.meri.jpa.relationships.entities.onetoone.TableOneToOneInverse;
 import org.meri.jpa.relationships.entities.onetoone.TableOneToOneOwner;
 
-//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship TUTO fakt
 public class OneToOneTestCase extends AbstractRelationshipTestCase {
 
   /**
@@ -118,12 +118,23 @@ public class OneToOneTestCase extends AbstractRelationshipTestCase {
     em.getTransaction().begin();
     
     ColumnOneToOneOwner owner = new ColumnOneToOneOwner(10);
+    ColumnOneToOneInverse inverse = new ColumnOneToOneInverse(10);
+    owner.setInverse(inverse);
+    inverse.setOwner(owner);
+    
+    em.persist(inverse);
     em.persist(owner);
     
     em.getTransaction().commit();
     em.close();
     
-    assertEntityExists(ColumnOneToOneOwner.class, 10);
+    //both entities and their relationship have been saved 
+    EntityManager em1 = factory.createEntityManager();
+    ColumnOneToOneOwner ownerCheck = em1.find(ColumnOneToOneOwner.class, 10);
+    ColumnOneToOneInverse inverseCheck = em1.find(ColumnOneToOneInverse.class, 10);
+    assertEquals(ownerCheck, inverseCheck.getOwner());
+    assertEquals(inverseCheck, ownerCheck.getInverse());
+    em1.close();
   }
 
   /**
@@ -205,8 +216,13 @@ public class OneToOneTestCase extends AbstractRelationshipTestCase {
     em.getTransaction().commit();
     em.close();
     
-    assertEntityExists(PrimaryOneToOneOwner.class, 10);
-    assertEntityExists(PrimaryOneToOneInverse.class, 10);
+    //both entities and their relationship have been saved 
+    EntityManager em1 = factory.createEntityManager();
+    PrimaryOneToOneOwner ownerCheck = em1.find(PrimaryOneToOneOwner.class, 10);
+    PrimaryOneToOneInverse inverseCheck = em1.find(PrimaryOneToOneInverse.class, 10);
+    assertEquals(ownerCheck, inverseCheck.getOwner());
+    assertEquals(inverseCheck, ownerCheck.getInverse());
+    em1.close();
   }
 
   /**

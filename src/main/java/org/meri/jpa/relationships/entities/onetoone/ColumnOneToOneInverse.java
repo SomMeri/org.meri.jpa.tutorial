@@ -15,6 +15,13 @@ public class ColumnOneToOneInverse {
   @OneToOne(mappedBy="inverse")
   private ColumnOneToOneOwner owner;
 
+  public ColumnOneToOneInverse() {
+  }
+
+  public ColumnOneToOneInverse(int id) {
+    this.id = id;
+  }
+
   public long getId() {
     return id;
   }

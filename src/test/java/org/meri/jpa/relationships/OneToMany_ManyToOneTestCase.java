@@ -38,9 +38,6 @@ import org.meri.jpa.relationships.entities.onetomany_manytoone.TableOneToManyOwn
 import org.meri.jpa.relationships.entities.onetomany_manytoone.UnidirectionalManyToOneInverse;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.UnidirectionalManyToOneOwner;
 
-
-//FIXME pridat komentare
-//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
 public class OneToMany_ManyToOneTestCase extends AbstractRelationshipTestCase {
 
   protected static final String CHANGELOG_LOCATION = RelationshipsConstants.ONE_TO_MANY_CHANGELOG_PATH;
@@ -269,66 +266,6 @@ public class OneToMany_ManyToOneTestCase extends AbstractRelationshipTestCase {
     assertEntityNOTExists(OrphanOneToManyInverse.class, 5);
   }
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   @Test
   public void relationshipSaveOnlyOwner() {
     EntityManager em = getFactory().createEntityManager();
