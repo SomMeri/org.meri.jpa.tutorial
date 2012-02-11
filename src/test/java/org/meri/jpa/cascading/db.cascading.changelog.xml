@@ -4,8 +4,6 @@
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
 	<changeSet id="1" author="meri">
-		<comment>Create structure for One-To-One default configuration test case.</comment>
-
 		<createTable tableName="cascadeonetooneowner">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
@@ -36,7 +34,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="2" author="meri">
-		<comment>Create  data for default One-To-One configuration test case.</comment>
+		<comment>Create chain of tables for cascading demos.</comment>
 
 		<insert tableName="cascadeonetooneinverse">
 			<column name="id" valueNumeric="5" />
@@ -55,8 +53,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="3" author="meri">
-		<comment>Create structure for One-To-One default configuration test case.</comment>
-
 		<createTable tableName="onetooneowner">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
@@ -75,20 +71,8 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			referencedTableName="onetooneinverse" referencedColumnNames="id" />
 	</changeSet>
 
-	<changeSet id="4" author="meri">
-		<comment>Create  data for default One-To-One configuration test case.</comment>
-
-		<insert tableName="onetooneinverse">
-			<column name="id" valueNumeric="5" />
-		</insert>
-		<insert tableName="onetooneowner">
-			<column name="id" valueNumeric="1" />
-			<column name="inverse_id" valueNumeric="5" />
-		</insert>
-	</changeSet>
-
 	<changeSet id="5" author="meri">
-		<comment>Create structure for One-To-One default configuration test case.</comment>
+		<comment>Create chain of tables for cascading demos.</comment>
 
 		<createTable tableName="cascadefirst">
 			<column name="id" type="integer">
@@ -145,8 +129,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="6" author="meri">
-		<comment>Create  data for default One-To-One configuration test case.</comment>
-
 		<insert tableName="cascadefirst">
 			<column name="id" valueNumeric="1" />
 		</insert>
@@ -207,7 +189,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="7" author="meri">
-		<comment>Create structure for One-To-One default configuration test case.</comment>
+		<comment>Create chain of tables for cascading remove demos.</comment>
 
 		<createTable tableName="cascaderemovefirst">
 			<column name="id" type="integer">
