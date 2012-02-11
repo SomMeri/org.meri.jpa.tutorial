@@ -22,9 +22,10 @@ public class MtmOwner {
   public MtmOwner() {
   }
 
-  public MtmOwner(int id) {
+  public MtmOwner(int id, String name) {
     this();
     this.id = id;
+    this.name = name;
   }
 
   public long getId() {
