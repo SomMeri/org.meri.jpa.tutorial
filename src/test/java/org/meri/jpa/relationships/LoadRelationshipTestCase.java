@@ -12,8 +12,6 @@ import org.junit.Test;
 import org.meri.jpa.relationships.entities.Person;
 import org.meri.jpa.relationships.entities.TwitterAccount;
 
-//FIXME: upratat changelog
-//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
 public class LoadRelationshipTestCase extends AbstractRelationshipTestCase {
 
   public LoadRelationshipTestCase() {

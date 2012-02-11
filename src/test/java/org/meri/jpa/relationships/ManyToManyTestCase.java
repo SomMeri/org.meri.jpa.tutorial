@@ -15,8 +15,6 @@ import org.meri.jpa.relationships.entities.manytomany.MtmOwner;
 import org.meri.jpa.relationships.entities.manytomany.TableMtmInverse;
 import org.meri.jpa.relationships.entities.manytomany.TableMtmOwner;
 
-//FIXME: upratat changelog
-//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
 public class ManyToManyTestCase extends AbstractRelationshipTestCase {
 
   protected static final String CHANGELOG_LOCATION = RelationshipsConstants.MANY_TO_MANY_CHANGELOG_PATH;

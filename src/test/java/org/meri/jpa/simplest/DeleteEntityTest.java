@@ -16,8 +16,6 @@ import org.junit.Test;
 import org.meri.jpa.AbstractTestCase;
 import org.meri.jpa.simplest.entities.Person;
 
-//FIXME: upratat changelog
-//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
 public class DeleteEntityTest extends AbstractTestCase {
 
   private static final BigDecimal SIMON_SLASH_ID = SimplestConstants.SIMON_SLASH_ID;
@@ -34,6 +32,10 @@ public class DeleteEntityTest extends AbstractTestCase {
     super.beforeEachTest();
   }
   
+  /**
+   * Delete an entity and check whether it 
+   * disappeared from the database.
+   */
   @Test
   public void deleteEntity() {
     EntityManager em1 = factory.createEntityManager();
@@ -50,6 +52,11 @@ public class DeleteEntityTest extends AbstractTestCase {
     assertEntityNOTExists(Person.class, SIMON_SLASH_ID);
   }
 
+  /**
+   * Load an entity by one entity manager and delete
+   * it by another. Try to refresh loaded entity,
+   * an exception is thrown.
+   */
   @Test
   public void refreshDeletedEntity() {
     EntityManager em1 = factory.createEntityManager();

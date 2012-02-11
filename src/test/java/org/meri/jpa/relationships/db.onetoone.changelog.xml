@@ -94,8 +94,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="3" author="meri">
-		<comment>Create structure for One-To-One default configuration test case.</comment>
-
 		<createTable tableName="onetooneowner">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
@@ -115,8 +113,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="4" author="meri">
-		<comment>Create  data for default One-To-One configuration test case.</comment>
-
 		<insert tableName="onetooneinverse">
 			<column name="id" valueNumeric="5" />
 		</insert>
@@ -174,8 +170,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="5" author="meri">
-		<comment>Create structure for One-To-One default configuration test case.</comment>
-
 		<createTable tableName="lazyonetooneowner">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
@@ -195,8 +189,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="6" author="meri">
-		<comment>Create  data for default One-To-One configuration test case.</comment>
-
 		<insert tableName="lazyonetooneinverse">
 			<column name="id" valueNumeric="5" />
 		</insert>
@@ -207,8 +199,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="7" author="meri">
-		<comment>Create structure for One-To-One default configuration test case.</comment>
-
 		<createTable tableName="columnonetooneowner">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
@@ -228,8 +218,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="8" author="meri">
-		<comment>Create  data for default One-To-One configuration test case.</comment>
-
 		<insert tableName="columnonetooneinverse">
 			<column name="inverse_id" valueNumeric="5" />
 		</insert>
@@ -240,8 +228,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="9" author="meri">
-		<comment>Create structure for One-To-One default configuration test case.</comment>
-
 		<createTable tableName="tableonetooneowner">
 			<column name="owner_id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
@@ -269,8 +255,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="10" author="meri">
-		<comment>Create  data for default One-To-One configuration test case.</comment>
-
 		<insert tableName="tableonetooneinverse">
 			<column name="inverse_id" valueNumeric="5" />
 		</insert>
@@ -284,8 +268,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="11" author="meri">
-		<comment>Create structure for One-To-One default configuration test case.</comment>
-
 		<createTable tableName="primaryonetooneowner">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
@@ -302,8 +284,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="12" author="meri">
-		<comment>Create  data for default One-To-One configuration test case.</comment>
-
 		<insert tableName="primaryonetooneinverse">
 			<column name="id" valueNumeric="1" />
 		</insert>
@@ -314,8 +294,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
 
 	<changeSet id="13" author="meri">
-		<comment>Create structure for One-To-One default configuration test case.</comment>
-
 		<createTable tableName="composedprimaryonetooneowner">
 			<column name="id1" type="integer">
 				<constraints nullable="false" />
@@ -345,8 +323,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="14" author="meri">
-		<comment>Create  data for default One-To-One configuration test case.</comment>
-
 		<insert tableName="composedprimaryonetooneinverse">
 			<column name="id1" valueNumeric="1" />
 			<column name="id2" valueNumeric="2" />

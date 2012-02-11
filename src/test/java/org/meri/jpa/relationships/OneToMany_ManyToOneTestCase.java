@@ -39,7 +39,7 @@ import org.meri.jpa.relationships.entities.onetomany_manytoone.UnidirectionalMan
 import org.meri.jpa.relationships.entities.onetomany_manytoone.UnidirectionalManyToOneOwner;
 
 
-//FIXME: upratat changelog
+//FIXME pridat komentare
 //FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
 public class OneToMany_ManyToOneTestCase extends AbstractRelationshipTestCase {
 

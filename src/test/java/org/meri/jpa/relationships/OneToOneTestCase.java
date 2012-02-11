@@ -19,8 +19,7 @@ import org.meri.jpa.relationships.entities.onetoone.PrimaryOneToOneOwner;
 import org.meri.jpa.relationships.entities.onetoone.TableOneToOneInverse;
 import org.meri.jpa.relationships.entities.onetoone.TableOneToOneOwner;
 
-//FIXME: upratat changelog
-//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
+//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship TUTO fakt
 public class OneToOneTestCase extends AbstractRelationshipTestCase {
 
   /**

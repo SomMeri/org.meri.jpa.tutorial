@@ -9,7 +9,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.meri.jpa.AbstractTestCase;
 
-//FIXME: upratat changelog
 public class AbstractRelationshipTestCase extends AbstractTestCase {
 
   protected static final BigDecimal SIMON_SLASH_ID = RelationshipsConstants.SIMON_SLASH_ID;

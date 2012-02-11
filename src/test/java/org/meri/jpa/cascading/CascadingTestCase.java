@@ -29,8 +29,6 @@ import org.meri.jpa.cascading.entities.CascadeThird;
 import org.meri.jpa.cascading.entities.OneToOneInverse;
 import org.meri.jpa.cascading.entities.OneToOneOwner;
 
-//FIXME: upratat changelog
-//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
 public class CascadingTestCase extends AbstractTestCase {
 
   protected static final BigDecimal SIMON_SLASH_ID = CascadingConstants.SIMON_SLASH_ID;
@@ -39,6 +37,9 @@ public class CascadingTestCase extends AbstractTestCase {
 
   protected static EntityManagerFactory factory;
 
+  /**
+   * This has to work :)
+   */
   @Test
   public void wrongOrderCascade() {
     // create a relationship between entities
@@ -61,8 +62,15 @@ public class CascadingTestCase extends AbstractTestCase {
     CascadeOneToOneInverse inverseCheck = em1.find(CascadeOneToOneInverse.class, 7);
     assertNotNull(inverseCheck.getOwner());
     em1.close();
-}
+  }
 
+  /**
+   * Save only the inverse entity in a relationship
+   * without cascading.
+   * 
+   * The operation throws an exception because the
+   * foreign key to the owner was violated.
+   */
   @Test
   public void basicNoCascadeInverse() {
     // create a relationship between entities
@@ -75,9 +83,8 @@ public class CascadingTestCase extends AbstractTestCase {
     EntityManager em = getFactory().createEntityManager();
     em.getTransaction().begin();
 
-    em.persist(inverse);
-
     try {
+      em.persist(inverse);
       em.getTransaction().commit();
     } catch (IllegalStateException ex) {
       em.close();
@@ -87,6 +94,13 @@ public class CascadingTestCase extends AbstractTestCase {
     fail("It was supposed to throw an exception.");
   }
 
+  /**
+   * The merge does not know what to do with a reference to a 
+   * not-yet-merged entity. Instead of merging it, 
+   * an exception is thrown.
+   * 
+   * The relationship under test is without cascading. 
+   */
   @Test
   public void impossibleMergeNoCascade() {
     // create a relationship between entities
@@ -121,7 +135,13 @@ public class CascadingTestCase extends AbstractTestCase {
     fail("It was supposed to throw an exception (twice).");
   }
 
-  //FIXME: update this test in the post
+  /**
+   * If the merged entity that references another not-yet-merged 
+   * entity, the merge operation throws an exception. The issue 
+   * can be avoided if the merge operation cascades through the 
+   * relationship. JPA will merge both entities within one operation 
+   * and create a relationship between them. 
+   */
   @Test
   public void mergeInverse() {
     // create a relationship between entities
@@ -142,6 +162,13 @@ public class CascadingTestCase extends AbstractTestCase {
     assertEntityExists(CascadeOneToOneOwner.class, 10);
   }
 
+  /**
+   * If the merged entity that references another not-yet-merged 
+   * entity, the merge operation throws an exception. The issue 
+   * can be avoided if the merge operation cascades through the 
+   * relationship. JPA will merge both entities within one operation 
+   * and create a relationship between them. 
+   */
   @Test
   public void mergeOwner() {
     // create a relationship between entities
@@ -161,6 +188,12 @@ public class CascadingTestCase extends AbstractTestCase {
     assertEntityExists(CascadeOneToOneInverse.class, 12);
   }
 
+  /**
+   * The operation might cascade to unintended entities. Remove 
+   * one entity and persist another. If the persist operation 
+   * cascades to the deleted entity, it will resurrect the removed 
+   * entity back to life.
+   */
   @Test
   public void ressurectDeletedEntity() {
     EntityManager em = getFactory().createEntityManager();
@@ -183,6 +216,9 @@ public class CascadingTestCase extends AbstractTestCase {
     assertEntityExists(CascadeOneToOneOwner.class, 2);
   }
 
+  /**
+   * The delete cascades through unloaded entities.
+   */
   @Test
   public void cascadeDeleteThroughUnloaded() {
     // check the data: first, second and third entities are 
@@ -203,6 +239,10 @@ public class CascadingTestCase extends AbstractTestCase {
     assertEntityNOTExists(CascadeRemoveThird.class, 1);
   }
 
+  /**
+   * The cascading of merge passes only through entities that 
+   * are already loaded.
+   */
   @Test
   public void cascadeMergeThroughUnloaded() {
     // check the data: first, second and third entities are 
@@ -237,6 +277,9 @@ public class CascadingTestCase extends AbstractTestCase {
     em1.close();
   }
 
+  /**
+   * The delete cascades through unloaded entities.
+   */
   @Test
   public void cascadePersistThroughUnloaded() {
     // check the data: first, second and third entities are 
@@ -270,6 +313,10 @@ public class CascadingTestCase extends AbstractTestCase {
     assertEntityExists(CascadeFourth.class, 2);
   }
 
+  /**
+   * The cascading of refresh passes only through entities that 
+   * are already loaded.
+   */
   @Test
   public void cascadeRefreshThroughUnloaded() {
     // check the data: first, second and third entities are 
@@ -296,6 +343,10 @@ public class CascadingTestCase extends AbstractTestCase {
     em.close();
   }
 
+  /**
+   * The cascading of detach passes only through entities that 
+   * are already loaded.
+   */
   @Test
   public void cascadeDetachThroughUnloaded() {
     // check the data: first, second and third entities are 

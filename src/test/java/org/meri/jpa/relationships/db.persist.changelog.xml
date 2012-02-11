@@ -157,8 +157,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	</changeSet>
 
 	<changeSet id="5" author="meri">
-		<comment>Create structure for One-To-One default configuration test case.</comment>
-
 		<createTable tableName="lazyonetooneowner">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
