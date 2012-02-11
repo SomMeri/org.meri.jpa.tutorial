@@ -40,6 +40,7 @@ import org.meri.jpa.relationships.entities.onetomany_manytoone.UnidirectionalMan
 
 
 //FIXME: upratat changelog
+//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
 public class OneToMany_ManyToOneTestCase extends AbstractRelationshipTestCase {
 
   protected static final String CHANGELOG_LOCATION = RelationshipsConstants.ONE_TO_MANY_CHANGELOG_PATH;

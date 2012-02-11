@@ -165,11 +165,22 @@ public class PersonBetter {
     account.setOwner(null);
   }
   
+  /**
+   * Returns a collection with followed twitter accounts. The 
+   * returned collection is a defensive copy.
+   *  
+   * @return a collection with followed twitter accounts
+   */
   public Map<String, TwitterAccountBetter> getTwitterFollowing() {
     //defensive copy, nobody will be able to change the list from the outside
     return new HashMap<String, TwitterAccountBetter>(twitterFollowing);
   }
 
+  /**
+   * Add new account to the list of followed twitter accounts. The method 
+   * keeps relationships consistency:
+   * * this person is set as the account follower also at the twitter side
+   */
   public void startFollowingTwitter(TwitterAccountBetter account) {
     //prevent endless loop
     if (twitterFollowing.containsValue(account))
@@ -180,6 +191,11 @@ public class PersonBetter {
     account.addFollower(this);
   }
   
+  /**
+   * Removes the account from the list of followed twitter 
+   * accounts. The method keeps relationships consistency:
+   * * this person is removed from the account followers also at the twitter side
+   */
   public void stopFollowingTwitter(TwitterAccountBetter account) {
     //prevent endless loop
     if (!twitterFollowing.containsValue(account))
@@ -188,10 +204,6 @@ public class PersonBetter {
     twitterFollowing.remove(account.getAccountName());
     //remove myself from the twitter account
     account.removeFollower(this);
-  }
-
-  public void setTwitterFollowing(Map<String, TwitterAccountBetter> twitterFollowing) {
-    this.twitterFollowing = twitterFollowing;
   }
 
   @Override

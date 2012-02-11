@@ -6,6 +6,8 @@ import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -16,9 +18,19 @@ public class TableMtmOwner {
 
   private String name;
   @ManyToMany
+  @JoinTable(name="TableMtmJoin", 
+    joinColumns=@JoinColumn(name="owner"), 
+    inverseJoinColumns=@JoinColumn(name="inverse")
+  )
   private Collection<TableMtmInverse> inverses = new ArrayList<TableMtmInverse>();
 
   public TableMtmOwner() {
+  }
+
+  public TableMtmOwner(int id, String name) {
+    this();
+    this.id = id;
+    this.name = name;
   }
 
   public TableMtmOwner(int id) {

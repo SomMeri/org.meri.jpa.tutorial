@@ -30,6 +30,7 @@ import org.meri.jpa.cascading.entities.OneToOneInverse;
 import org.meri.jpa.cascading.entities.OneToOneOwner;
 
 //FIXME: upratat changelog
+//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
 public class CascadingTestCase extends AbstractTestCase {
 
   protected static final BigDecimal SIMON_SLASH_ID = CascadingConstants.SIMON_SLASH_ID;

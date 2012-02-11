@@ -18,7 +18,6 @@ import org.junit.Test;
 import org.meri.jpa.AbstractTestCase;
 import org.meri.jpa.simplest.entities.Person;
 
-//FIXME: upratat changelog
 public class PersistEntityTest extends AbstractTestCase {
 
   private static final BigDecimal SIMON_SLASH_ID = SimplestConstants.SIMON_SLASH_ID;
@@ -27,6 +26,11 @@ public class PersistEntityTest extends AbstractTestCase {
 
   private static EntityManagerFactory factory;
 
+  /**
+   * Updates a person and save the change to the 
+   * database. A different entity manager then 
+   * loads the same person and checks the change.
+   */
   @Test 
   public void updateEntity() {
     EntityManager em1 = factory.createEntityManager();
@@ -50,6 +54,15 @@ public class PersistEntityTest extends AbstractTestCase {
     assertEquals("nobody", person2.getFirstName());
   }
 
+  
+  /**
+   * Updates a person and save the change to the 
+   * database. A different entity manager then 
+   * loads the same person and checks the change.
+   * 
+   * Entity change does not have to happen in 
+   * between transaction begin and commit.
+   */
   @Test 
   public void updateEntity_note() {
     EntityManager em1 = factory.createEntityManager();
@@ -72,6 +85,13 @@ public class PersistEntityTest extends AbstractTestCase {
     assertEquals("hello", person2.getFirstName());
   }
 
+  /**
+   * Changes on detached entities are ignored. 
+   * 
+   * The test detaches an entity and commits a 
+   * transaction. Changes are not saved into 
+   * the database.
+   */
   @Test 
   public void detachedEntity() {
     EntityManager em1 = factory.createEntityManager();
@@ -98,6 +118,11 @@ public class PersistEntityTest extends AbstractTestCase {
     assertNotSame("detacheEntity", person2.getFirstName());
   }
 
+  /**
+   * Create a new person, merge it into the persistence 
+   * context and commit changes. Merged person is loaded 
+   * with different entity manager and checked.
+   */
   @Test 
   public void insertEntityMerge() {
     Person newPerson = new Person(2, "MM", "Martin", "Martinez");
@@ -118,27 +143,11 @@ public class PersistEntityTest extends AbstractTestCase {
     assertEquals("MM", person2.getUserName());
   }
 
-  @Test 
-  public void insertEntityMerge_note() {
-    //FIXME: this was supposed to do something ...
-    Person newPerson = new Person(2, "AA", "Andrea", "Antarez");
-
-    EntityManager em1 = factory.createEntityManager();
-    em1.getTransaction().begin();
-    //merge entity properties into persistence context 
-    em1.merge(newPerson);
-    em1.getTransaction().commit();
-    em1.close();
-
-    //new entity was saved and is available to different entity manager
-    EntityManager em2 = factory.createEntityManager();
-    Person person2 = em2.find(Person.class, 2);
-    em2.close();
-
-    // check loaded entity
-    assertEquals("AA", person2.getUserName());
-  }
-
+ /**
+  * The test creates a new person, persists it and commits 
+  * changes. Saved person is loaded with different entity 
+  * manager and checked.
+  */
   @Test 
   public void insertEntityPersist() {
     Person newPerson = new Person(3, "BB", "Bob", "Brandert");
@@ -161,6 +170,11 @@ public class PersistEntityTest extends AbstractTestCase {
     assertEquals("BB", person2.getUserName());
   }
 
+  /**
+   * If an entity with the same id already exists, 
+   * either persist or a commit method throws an 
+   * exception.
+   */
   @Test 
   public void insertEntityPersist_Note() {
     Person newPerson = new Person(4, "CC", "Cyntia", "Crowd");

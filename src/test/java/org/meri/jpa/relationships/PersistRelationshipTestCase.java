@@ -16,6 +16,7 @@ import org.meri.jpa.relationships.entities.manytomany.MtmCollectionOwner;
 import org.meri.jpa.relationships.entities.onetoone.OneToOneInverse;
 import org.meri.jpa.relationships.entities.onetoone.OneToOneOwner;
 
+//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
 public class PersistRelationshipTestCase extends AbstractRelationshipTestCase {
 
   protected static final String CHANGELOG_LOCATION = RelationshipsConstants.PERSIST_CHANGELOG_PATH;

@@ -17,6 +17,7 @@ import org.meri.jpa.AbstractTestCase;
 import org.meri.jpa.simplest.entities.Person;
 
 //FIXME: upratat changelog
+//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
 public class DeleteEntityTest extends AbstractTestCase {
 
   private static final BigDecimal SIMON_SLASH_ID = SimplestConstants.SIMON_SLASH_ID;

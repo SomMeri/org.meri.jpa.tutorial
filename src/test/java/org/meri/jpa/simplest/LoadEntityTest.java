@@ -19,6 +19,7 @@ import org.meri.jpa.AbstractTestCase;
 import org.meri.jpa.simplest.entities.Person;
 
 //FIXME: upratat changelog
+//FIXME: persistence testy su zle, netestuju ci sa savol aj relationship
 public class LoadEntityTest extends AbstractTestCase {
 
   private static final BigDecimal SIMON_SLASH_ID = SimplestConstants.SIMON_SLASH_ID;
@@ -166,6 +167,11 @@ public class LoadEntityTest extends AbstractTestCase {
     fail("An exception was expected.");
   }
 
+  /**
+   * These whether loading within the transaction works correctly.
+   * Load the same entity twice with the same manager. Two 
+   * found objects are equal. 
+   */
   @Test
   public void entityEquality_same_Transaction() {
     EntityManager em = factory.createEntityManager();
@@ -203,6 +209,11 @@ public class LoadEntityTest extends AbstractTestCase {
     assertNotSame(person1, person2);
   }
 
+  /**
+   * These whether loading after commit works correctly.
+   * Load the same entity twice and commit the transaction 
+   * in between. Two found objects are equal. 
+   */
   @Test
   public void entityEquality_commited_transaction() {
     EntityManager em = factory.createEntityManager();
@@ -219,6 +230,9 @@ public class LoadEntityTest extends AbstractTestCase {
     assertEquals(person1, person2);
   }
 
+  /**
+   * JPQL finds the same object as the find method.
+   */
   @Test
   @SuppressWarnings("unchecked")
   public void testJPQL() {
