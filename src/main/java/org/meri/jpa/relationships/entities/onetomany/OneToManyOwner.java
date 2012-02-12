@@ -1,4 +1,4 @@
-package org.meri.jpa.relationships.entities.onetomany_manytoone;
+package org.meri.jpa.relationships.entities.onetomany;
 
 import java.util.Collection;
 

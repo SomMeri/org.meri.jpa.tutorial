@@ -9,15 +9,24 @@ import static org.junit.Assert.fail;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import org.junit.Test;
+import org.meri.jpa.relationships.entities.manytoone.UnidirectionalManyToOneInverse;
+import org.meri.jpa.relationships.entities.manytoone.UnidirectionalManyToOneOwner;
+import org.meri.jpa.relationships.entities.onetomany.ColumnOneToManyInverse;
+import org.meri.jpa.relationships.entities.onetomany.ColumnOneToManyOwner;
+import org.meri.jpa.relationships.entities.onetomany.OneToManyInverse;
+import org.meri.jpa.relationships.entities.onetomany.OneToManyOwner;
+import org.meri.jpa.relationships.entities.onetomany.OrphanOneToManyInverse;
+import org.meri.jpa.relationships.entities.onetomany.OrphanOneToManyOwner;
+import org.meri.jpa.relationships.entities.onetomany.TableOneToManyInverse;
+import org.meri.jpa.relationships.entities.onetomany.TableOneToManyOwner;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.CollectionInverse;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.CollectionOwner;
-import org.meri.jpa.relationships.entities.onetomany_manytoone.ColumnOneToManyInverse;
-import org.meri.jpa.relationships.entities.onetomany_manytoone.ColumnOneToManyOwner;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.CustomColumnCollectionInverse;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.CustomColumnCollectionOwner;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.CustomColumnMapInverse;
@@ -25,18 +34,10 @@ import org.meri.jpa.relationships.entities.onetomany_manytoone.CustomColumnMapOw
 import org.meri.jpa.relationships.entities.onetomany_manytoone.LazyOwner;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.MapInverse;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.MapOwner;
-import org.meri.jpa.relationships.entities.onetomany_manytoone.OneToManyInverse;
-import org.meri.jpa.relationships.entities.onetomany_manytoone.OneToManyOwner;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.OrderedInverse;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.OrderedOwner;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.OrphanInverse;
-import org.meri.jpa.relationships.entities.onetomany_manytoone.OrphanOneToManyInverse;
-import org.meri.jpa.relationships.entities.onetomany_manytoone.OrphanOneToManyOwner;
 import org.meri.jpa.relationships.entities.onetomany_manytoone.OrphanOwner;
-import org.meri.jpa.relationships.entities.onetomany_manytoone.TableOneToManyInverse;
-import org.meri.jpa.relationships.entities.onetomany_manytoone.TableOneToManyOwner;
-import org.meri.jpa.relationships.entities.onetomany_manytoone.UnidirectionalManyToOneInverse;
-import org.meri.jpa.relationships.entities.onetomany_manytoone.UnidirectionalManyToOneOwner;
 
 public class OneToMany_ManyToOneTestCase extends AbstractRelationshipTestCase {
 
@@ -92,7 +93,8 @@ public class OneToMany_ManyToOneTestCase extends AbstractRelationshipTestCase {
     MapInverse inverse = owner.getInverse();
     assertEquals(5, inverse.getId());
     // mapKey property is a key to the map
-    assertEquals(owner, inverse.getOwners().get(owner.getMapKey()));
+    Map<String, MapOwner> owners = inverse.getOwners();
+    assertEquals(owner, owners.get(owner.getMapKey()));
     
     em.close();
   }

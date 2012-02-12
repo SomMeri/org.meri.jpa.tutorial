@@ -8,14 +8,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="facebook_account")
-public class FacebookAccountBetter {
+public class SafeFacebookAccount {
   
   @Id
   private long id;
   private String username;
   @OneToOne
   @JoinColumn(name="owner_id")
-  private PersonBetter owner;
+  private SafePerson owner;
 
   public long getId() {
     return id;
@@ -33,16 +33,16 @@ public class FacebookAccountBetter {
     this.username = username;
   }
 
-  public PersonBetter getOwner() {
+  public SafePerson getOwner() {
     return owner;
   }
 
-  public void setOwner(PersonBetter owner) {
+  public void setOwner(SafePerson owner) {
     //prevent endless loop
     if (sameAsFormer(owner))
       return ;
     //set new owner
-    PersonBetter oldOwner = this.owner;
+    SafePerson oldOwner = this.owner;
     this.owner = owner;
     //remove from the old owner
     if (oldOwner!=null)
@@ -52,7 +52,7 @@ public class FacebookAccountBetter {
       owner.setFacebookAccount(this);
   }
 
-  private boolean sameAsFormer(PersonBetter newOwner) {
+  private boolean sameAsFormer(SafePerson newOwner) {
     if (owner == null)
       return newOwner == null;
     

@@ -3,23 +3,23 @@ package org.meri.jpa.bestpractice;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.meri.jpa.relationships.entities.bestpractice.FacebookAccountBetter;
-import org.meri.jpa.relationships.entities.bestpractice.PersonBetter;
-import org.meri.jpa.relationships.entities.bestpractice.TwitterAccountBetter;
+import org.meri.jpa.relationships.entities.bestpractice.SafeFacebookAccount;
+import org.meri.jpa.relationships.entities.bestpractice.SafePerson;
+import org.meri.jpa.relationships.entities.bestpractice.SafeTwitterAccount;
 
-public class SafePersonFacebookTestCase {
+public class SafeRelationshipsTestCase {
 
   @Test
   public void testSetFacebookToPerson() {
-    PersonBetter person = new PersonBetter();
-    FacebookAccountBetter account = new FacebookAccountBetter();
+    SafePerson person = new SafePerson();
+    SafeFacebookAccount account = new SafeFacebookAccount();
     //set new Facebook account
     person.setFacebookAccount(account);
     assertEquals(person, account.getOwner());
     assertEquals(account, person.getFacebookAccount());
 
     //change Facebook account
-    FacebookAccountBetter secondAccount = new FacebookAccountBetter();
+    SafeFacebookAccount secondAccount = new SafeFacebookAccount();
     person.setFacebookAccount(secondAccount);
     assertNull(account.getOwner());
     assertEquals(person, secondAccount.getOwner());
@@ -33,15 +33,15 @@ public class SafePersonFacebookTestCase {
 
   @Test
   public void testSetPersonToFacebook() {
-    FacebookAccountBetter account = new FacebookAccountBetter();
-    PersonBetter person = new PersonBetter();
+    SafeFacebookAccount account = new SafeFacebookAccount();
+    SafePerson person = new SafePerson();
     //set new Facebook owner
     account.setOwner(person);
     assertEquals(account, person.getFacebookAccount());
     assertEquals(person, account.getOwner());
 
     //change Facebook owner
-    PersonBetter secondPerson = new PersonBetter();
+    SafePerson secondPerson = new SafePerson();
     account.setOwner(secondPerson);
     assertNull(person.getFacebookAccount());
     assertEquals(account, secondPerson.getFacebookAccount());
@@ -55,15 +55,15 @@ public class SafePersonFacebookTestCase {
 
   @Test
   public void testSetTwitterToPerson() {
-    PersonBetter person = new PersonBetter();
-    TwitterAccountBetter account = new TwitterAccountBetter();
+    SafePerson person = new SafePerson();
+    SafeTwitterAccount account = new SafeTwitterAccount();
     //set new Twitter account
     person.addTwitterAccount(account);
     assertEquals(person, account.getOwner());
     assertTrue(person.getTwitterAccounts().contains(account));
 
     //add second Twitter account
-    TwitterAccountBetter secondAccount = new TwitterAccountBetter();
+    SafeTwitterAccount secondAccount = new SafeTwitterAccount();
     person.addTwitterAccount(secondAccount);
     assertEquals(person, account.getOwner());
     assertTrue(person.getTwitterAccounts().contains(account));
@@ -88,15 +88,15 @@ public class SafePersonFacebookTestCase {
 
   @Test
   public void testSetPersonToTwitter() {
-    TwitterAccountBetter account = new TwitterAccountBetter();
-    PersonBetter person = new PersonBetter();
+    SafeTwitterAccount account = new SafeTwitterAccount();
+    SafePerson person = new SafePerson();
     //set new Twitter owner
     account.setOwner(person);
     assertTrue(person.getTwitterAccounts().contains(account));
     assertEquals(person, account.getOwner());
 
     //change Twitter owner
-    PersonBetter secondPerson = new PersonBetter();
+    SafePerson secondPerson = new SafePerson();
     account.setOwner(secondPerson);
     assertFalse(person.getTwitterAccounts().contains(account));
     assertTrue(secondPerson.getTwitterAccounts().contains(account));
@@ -117,8 +117,8 @@ public class SafePersonFacebookTestCase {
 
   @Test
   public void testSetTwitterToFollower() {
-    PersonBetter person = new PersonBetter();
-    TwitterAccountBetter account = new TwitterAccountBetter();
+    SafePerson person = new SafePerson();
+    SafeTwitterAccount account = new SafeTwitterAccount();
     account.setAccountName("first");
     //set new Twitter account
     person.startFollowingTwitter(account);
@@ -126,7 +126,7 @@ public class SafePersonFacebookTestCase {
     assertEquals(account, person.getTwitterFollowing().get(account.getAccountName()));
 
     //add second Twitter account
-    TwitterAccountBetter secondAccount = new TwitterAccountBetter();
+    SafeTwitterAccount secondAccount = new SafeTwitterAccount();
     secondAccount.setAccountName("second");
     person.startFollowingTwitter(secondAccount);
     assertTrue(account.getFollowers().contains(person));
@@ -154,16 +154,16 @@ public class SafePersonFacebookTestCase {
 
   @Test
   public void testSetFollowerToTwitter() {
-    TwitterAccountBetter account = new TwitterAccountBetter();
+    SafeTwitterAccount account = new SafeTwitterAccount();
     account.setAccountName("account");
-    PersonBetter person = new PersonBetter();
+    SafePerson person = new SafePerson();
     //add new Twitter follower
     account.addFollower(person);
     assertEquals(account, person.getTwitterFollowing().get(account.getAccountName()));
     assertTrue(account.getFollowers().contains(person));
 
     //add second Twitter follower
-    PersonBetter secondPerson = new PersonBetter();
+    SafePerson secondPerson = new SafePerson();
     account.addFollower(secondPerson);
     assertEquals(account, person.getTwitterFollowing().get(account.getAccountName()));
     assertTrue(account.getFollowers().contains(person));
@@ -191,9 +191,9 @@ public class SafePersonFacebookTestCase {
 
   @Test
   public void testChangeTwitterName() {
-    TwitterAccountBetter account = new TwitterAccountBetter();
+    SafeTwitterAccount account = new SafeTwitterAccount();
     account.setAccountName("account");
-    PersonBetter person = new PersonBetter();
+    SafePerson person = new SafePerson();
 
     //person will follow the account
     account.addFollower(person);

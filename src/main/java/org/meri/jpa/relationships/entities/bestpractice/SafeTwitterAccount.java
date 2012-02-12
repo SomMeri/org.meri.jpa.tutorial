@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="twitter_account")
-public class TwitterAccountBetter {
+public class SafeTwitterAccount {
   
   @Id
   private long id;
@@ -20,10 +20,10 @@ public class TwitterAccountBetter {
   
   @ManyToOne
   @JoinColumn(name="owner_id")
-  private PersonBetter owner;
+  private SafePerson owner;
 
   @ManyToMany
-  private Set<PersonBetter> followers = new HashSet<PersonBetter>();;
+  private Set<SafePerson> followers = new HashSet<SafePerson>();;
 
   public long getId() {
     return id;
@@ -38,19 +38,19 @@ public class TwitterAccountBetter {
   }
 
   public void setAccountName(String accountName) {
-    Set<PersonBetter> allFollowers = new HashSet<PersonBetter>(followers);
-    for (PersonBetter follower : allFollowers) {
+    Set<SafePerson> allFollowers = new HashSet<SafePerson>(followers);
+    for (SafePerson follower : allFollowers) {
       follower.stopFollowingTwitter(this);
     }
     
     this.accountName = accountName;
 
-    for (PersonBetter follower : allFollowers) {
+    for (SafePerson follower : allFollowers) {
       follower.startFollowingTwitter(this);
     }
   }
 
-  public PersonBetter getOwner() {
+  public SafePerson getOwner() {
     return owner;
   }
 
@@ -62,12 +62,12 @@ public class TwitterAccountBetter {
    * 
    * @param owner
    */
-  public void setOwner(PersonBetter owner) {
+  public void setOwner(SafePerson owner) {
     //prevent endless loop
     if (sameAsFormer(owner))
       return ;
     //set new owner
-    PersonBetter oldOwner = this.owner;
+    SafePerson oldOwner = this.owner;
     this.owner = owner;
     //remove from the old owner
     if (oldOwner!=null)
@@ -77,17 +77,17 @@ public class TwitterAccountBetter {
       owner.addTwitterAccount(this);
   }
 
-  private boolean sameAsFormer(PersonBetter newOwner) {
+  private boolean sameAsFormer(SafePerson newOwner) {
     return owner==null? newOwner == null : owner.equals(newOwner);
   }
 
   
-  public Set<PersonBetter> getFollowers() {
+  public Set<SafePerson> getFollowers() {
     //defensive copy, nobody will be able to change the list from the outside
-    return new HashSet<PersonBetter>(followers);
+    return new HashSet<SafePerson>(followers);
   }
 
-  public void addFollower(PersonBetter follower) {
+  public void addFollower(SafePerson follower) {
     //prevent endless loop
     if (followers.contains(follower))
       return ;
@@ -97,7 +97,7 @@ public class TwitterAccountBetter {
     follower.startFollowingTwitter(this);
   }
 
-  public void removeFollower(PersonBetter follower) {
+  public void removeFollower(SafePerson follower) {
     //prevent endless loop
     if (!followers.contains(follower))
       return ;

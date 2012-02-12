@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class PersonBetter {
+public class SafePerson {
 
   @Id
   @Column(name = "user_id")
@@ -27,25 +27,25 @@ public class PersonBetter {
   private String about;
 
   @OneToOne(mappedBy = "owner")
-  private FacebookAccountBetter facebookAccount;
+  private SafeFacebookAccount facebookAccount;
 
   @OneToMany(mappedBy = "owner")
-  private Collection<TwitterAccountBetter> twitterAccounts = new ArrayList<TwitterAccountBetter>();
+  private Collection<SafeTwitterAccount> twitterAccounts = new ArrayList<SafeTwitterAccount>();
 
   @ManyToMany(mappedBy = "followers")
   @MapKey(name = "accountName")
-  private Map<String, TwitterAccountBetter> twitterFollowing = new HashMap<String, TwitterAccountBetter>();
+  private Map<String, SafeTwitterAccount> twitterFollowing = new HashMap<String, SafeTwitterAccount>();
 
-  public PersonBetter() {
+  public SafePerson() {
   }
 
-  public PersonBetter(String userName, String firstName, String lastName) {
+  public SafePerson(String userName, String firstName, String lastName) {
     this.userName = userName;
     this.firstName = firstName;
     this.lastName = lastName;
   }
 
-  public PersonBetter(long id, String userName, String firstName, String lastName) {
+  public SafePerson(long id, String userName, String firstName, String lastName) {
     this(userName, firstName, lastName);
     this.id = id;
   }
@@ -98,16 +98,16 @@ public class PersonBetter {
     this.about = about;
   }
 
-  public FacebookAccountBetter getFacebookAccount() {
+  public SafeFacebookAccount getFacebookAccount() {
     return facebookAccount;
   }
 
-  public void setFacebookAccount(FacebookAccountBetter facebookAccount) {
+  public void setFacebookAccount(SafeFacebookAccount facebookAccount) {
     //prevent endless loop
     if (sameAsFormer(facebookAccount))
       return;
     //set new facebook account
-    FacebookAccountBetter oldAccount = this.facebookAccount;
+    SafeFacebookAccount oldAccount = this.facebookAccount;
     this.facebookAccount = facebookAccount;
     //remove from the old facebook account
     if (oldAccount!=null)
@@ -117,11 +117,9 @@ public class PersonBetter {
       facebookAccount.setOwner(this);
   }
 
-  private boolean sameAsFormer(FacebookAccountBetter newFacebookAccount) {
-    if (facebookAccount == null)
-      return newFacebookAccount == null;
-    
-    return facebookAccount.equals(newFacebookAccount);
+  private boolean sameAsFormer(SafeFacebookAccount newAccount) {
+    return facebookAccount == null ? 
+      newAccount == null : facebookAccount.equals(newAccount);
   }
 
   /**
@@ -130,9 +128,10 @@ public class PersonBetter {
    *  
    * @return a collection with owned twitter accounts
    */
-  public Collection<TwitterAccountBetter> getTwitterAccounts() {
-    //defensive copy, nobody will be able to change the list from the outside
-    return new ArrayList<TwitterAccountBetter>(twitterAccounts);
+  public Collection<SafeTwitterAccount> getTwitterAccounts() {
+    //defensive copy, nobody will be able to change 
+    //the list from the outside
+    return new ArrayList<SafeTwitterAccount>(twitterAccounts);
   }
 
   /**
@@ -140,7 +139,7 @@ public class PersonBetter {
    * relationships consistency:
    * * this person is set as the account owner
    */
-  public void addTwitterAccount(TwitterAccountBetter account) {
+  public void addTwitterAccount(SafeTwitterAccount account) {
     //prevent endless loop
     if (twitterAccounts.contains(account))
       return ;
@@ -155,7 +154,7 @@ public class PersonBetter {
    * relationships consistency:
    * * the account will no longer reference this person as its owner
    */
-  public void removeTwitterAccount(TwitterAccountBetter account) {
+  public void removeTwitterAccount(SafeTwitterAccount account) {
     //prevent endless loop
     if (!twitterAccounts.contains(account))
       return ;
@@ -171,9 +170,9 @@ public class PersonBetter {
    *  
    * @return a collection with followed twitter accounts
    */
-  public Map<String, TwitterAccountBetter> getTwitterFollowing() {
+  public Map<String, SafeTwitterAccount> getTwitterFollowing() {
     //defensive copy, nobody will be able to change the list from the outside
-    return new HashMap<String, TwitterAccountBetter>(twitterFollowing);
+    return new HashMap<String, SafeTwitterAccount>(twitterFollowing);
   }
 
   /**
@@ -181,7 +180,7 @@ public class PersonBetter {
    * keeps relationships consistency:
    * * this person is set as the account follower also at the twitter side
    */
-  public void startFollowingTwitter(TwitterAccountBetter account) {
+  public void startFollowingTwitter(SafeTwitterAccount account) {
     //prevent endless loop
     if (twitterFollowing.containsValue(account))
       return ;
@@ -196,7 +195,7 @@ public class PersonBetter {
    * accounts. The method keeps relationships consistency:
    * * this person is removed from the account followers also at the twitter side
    */
-  public void stopFollowingTwitter(TwitterAccountBetter account) {
+  public void stopFollowingTwitter(SafeTwitterAccount account) {
     //prevent endless loop
     if (!twitterFollowing.containsValue(account))
       return ;
