@@ -1,0 +1,162 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+
+	<changeSet id="13" author="meri">
+		<createTable tableName="OneToManyOwner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="OneToManyInverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="OneToManyOwner_OneToManyInverse">
+			<column name="inverses_id" type="integer">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="OneToManyOwner_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_OneToManyInverse"
+			baseTableName="OneToManyOwner_OneToManyInverse" baseColumnNames="inverses_id"
+			referencedTableName="OneToManyInverse" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_OneToManyOwner"
+			baseTableName="OneToManyOwner_OneToManyInverse" baseColumnNames="OneToManyOwner_id"
+			referencedTableName="OneToManyOwner" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="14" author="meri">
+		<insert tableName="OneToManyInverse">
+			<column name="id" valueNumeric="5" />
+		</insert>
+		<insert tableName="OneToManyOwner">
+			<column name="id" valueNumeric="1" />
+		</insert>
+		<insert tableName="OneToManyOwner_OneToManyInverse">
+			<column name="inverses_id" valueNumeric="5" />
+			<column name="OneToManyOwner_id" valueNumeric="1" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="15" author="meri">
+		<createTable tableName="ColumnOneToManyOwner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="ColumnOneToManyInverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="owner_id" type="integer" />
+		</createTable>
+		<createTable tableName="ColumnOneToManyOwner_ColumnOneToManyInverse">
+			<column name="inverses_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+	</changeSet>
+
+	<changeSet id="16" author="meri">
+		<insert tableName="ColumnOneToManyInverse">
+			<column name="id" valueNumeric="5" />
+			<column name="owner_id" valueNumeric="1" />
+		</insert>
+		<insert tableName="ColumnOneToManyOwner">
+			<column name="id" valueNumeric="1" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="17" author="meri">
+		<createTable tableName="TableOneToManyOwner">
+			<column name="owner_id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="TableOneToManyInverse">
+			<column name="inverse_id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="OneToManyJoinTable">
+			<column name="inverse" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="owner" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_TableOneToManyInverse"
+			baseTableName="OneToManyJoinTable" baseColumnNames="inverse"
+			referencedTableName="TableOneToManyInverse" referencedColumnNames="inverse_id" />
+		<addForeignKeyConstraint constraintName="fk_TableOneToManyOwner"
+			baseTableName="OneToManyJoinTable" baseColumnNames="owner"
+			referencedTableName="TableOneToManyOwner" referencedColumnNames="owner_id" />
+	</changeSet>
+
+	<changeSet id="18" author="meri">
+		<insert tableName="TableOneToManyInverse">
+			<column name="inverse_id" valueNumeric="5" />
+		</insert>
+		<insert tableName="TableOneToManyOwner">
+			<column name="owner_id" valueNumeric="1" />
+		</insert>
+		<insert tableName="OneToManyJoinTable">
+			<column name="inverse" valueNumeric="5" />
+			<column name="owner" valueNumeric="1" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="19" author="meri">
+		<createTable tableName="OrphanOneToManyOwner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="OrphanOneToManyInverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="OrphanOneToManyOwner_OrphanOneToManyInverse">
+			<column name="inverses_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="OrphanOneToManyOwner_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_OrphanOneToManyInverse"
+			baseTableName="OrphanOneToManyOwner_OrphanOneToManyInverse"
+			baseColumnNames="inverses_id" referencedTableName="OrphanOneToManyInverse"
+			referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_OrphanOneToManyOwner"
+			baseTableName="OrphanOneToManyOwner_OrphanOneToManyInverse"
+			baseColumnNames="OrphanOneToManyOwner_id" referencedTableName="OrphanOneToManyOwner"
+			referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="20" author="meri">
+		<insert tableName="OrphanOneToManyInverse">
+			<column name="id" valueNumeric="5" />
+		</insert>
+		<insert tableName="OrphanOneToManyOwner">
+			<column name="id" valueNumeric="1" />
+		</insert>
+		<insert tableName="OrphanOneToManyOwner_OrphanOneToManyInverse">
+			<column name="inverses_id" valueNumeric="5" />
+			<column name="OrphanOneToManyOwner_id" valueNumeric="1" />
+		</insert>
+	</changeSet>
+
+</databaseChangeLog>

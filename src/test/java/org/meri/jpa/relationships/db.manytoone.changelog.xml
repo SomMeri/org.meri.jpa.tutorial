@@ -1,0 +1,34 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet id="1" author="meri">
+		<createTable tableName="UnidirectionalManyToOneowner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="inverse_id" type="integer" />
+		</createTable>
+		<createTable tableName="UnidirectionalManyToOneinverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_UnidirectionalManyToOneownerinverse"
+			baseTableName="UnidirectionalManyToOneowner" baseColumnNames="inverse_id"
+			referencedTableName="UnidirectionalManyToOneinverse"
+			referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="2" author="meri">
+		<insert tableName="UnidirectionalManyToOneinverse">
+			<column name="id" valueNumeric="5" />
+		</insert>
+		<insert tableName="UnidirectionalManyToOneowner">
+			<column name="id" valueNumeric="1" />
+			<column name="inverse_id" valueNumeric="5" />
+		</insert>
+	</changeSet>
+
+</databaseChangeLog>
