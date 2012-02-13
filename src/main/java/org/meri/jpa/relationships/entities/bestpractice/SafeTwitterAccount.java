@@ -82,11 +82,23 @@ public class SafeTwitterAccount {
   }
 
   
+  /**
+   * Returns a collection with followers. The 
+   * returned collection is a defensive copy.
+   *  
+   * @return a collection with followers
+   */
   public Set<SafePerson> getFollowers() {
     //defensive copy, nobody will be able to change the list from the outside
     return new HashSet<SafePerson>(followers);
   }
 
+  /**
+   * Add new follower. The method keeps relationships 
+   * consistency:
+   * * this account is added to followed accounts 
+   *   on the person side
+   */
   public void addFollower(SafePerson follower) {
     //prevent endless loop
     if (followers.contains(follower))
@@ -97,6 +109,12 @@ public class SafeTwitterAccount {
     follower.startFollowingTwitter(this);
   }
 
+  /**
+   * Removes the follower. The method keeps relationships 
+   * consistency:
+   * * this account is removed from followed accounts 
+   *   on the person side
+   */
   public void removeFollower(SafePerson follower) {
     //prevent endless loop
     if (!followers.contains(follower))

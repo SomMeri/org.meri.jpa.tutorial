@@ -193,7 +193,8 @@ public class SafePerson {
   /**
    * Removes the account from the list of followed twitter 
    * accounts. The method keeps relationships consistency:
-   * * this person is removed from the account followers also at the twitter side
+   * * this person is removed from the account followers 
+   *   also at the twitter side
    */
   public void stopFollowingTwitter(SafeTwitterAccount account) {
     //prevent endless loop

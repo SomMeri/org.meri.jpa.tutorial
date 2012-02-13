@@ -39,6 +39,22 @@ public class ManyToManyTestCase extends AbstractRelationshipTestCase {
   }
 
   /**
+   * Test the map. 
+   */
+  @Test
+  public void basicMap() {
+    EntityManager em = factory.createEntityManager();
+    
+    MtmOwner owner = em.find(MtmOwner.class, 1);
+    MtmInverse inverse = em.find(MtmInverse.class, 5);
+    
+    // mapKey property is a key to the map
+    Map<String, MtmOwner> owners = inverse.getOwners();
+    assertEquals(owner, owners.get(owner.getName()));
+    
+    em.close();
+  }
+  /**
    * Test whether load of entities with
    * many-to-many relationship works
    * correctly.
