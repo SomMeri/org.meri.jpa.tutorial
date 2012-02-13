@@ -4,12 +4,15 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 
 import org.junit.Test;
 import org.meri.jpa.relationships.entities.onetomany.ColumnOneToManyInverse;
 import org.meri.jpa.relationships.entities.onetomany.ColumnOneToManyOwner;
+import org.meri.jpa.relationships.entities.onetomany.MapOneToManyInverse;
+import org.meri.jpa.relationships.entities.onetomany.MapOneToManyOwner;
 import org.meri.jpa.relationships.entities.onetomany.OneToManyInverse;
 import org.meri.jpa.relationships.entities.onetomany.OneToManyOwner;
 import org.meri.jpa.relationships.entities.onetomany.OrphanOneToManyInverse;
@@ -26,8 +29,11 @@ public class OneToManyTestCase extends AbstractRelationshipTestCase {
     return CHANGELOG_LOCATION;
   }
 
+  /**
+   * Basic test, load some data and check them.
+   */
   @Test
-  public void unidirectionalOneToMany() {
+  public void basicLoad() {
     EntityManager em = factory.createEntityManager();
     
     OneToManyOwner owner = em.find(OneToManyOwner.class, 1);
@@ -38,6 +44,20 @@ public class OneToManyTestCase extends AbstractRelationshipTestCase {
     em.close();
   }
 
+  @Test
+  public void basicMap() {
+    EntityManager em = factory.createEntityManager();
+    
+    MapOneToManyOwner owner = em.find(MapOneToManyOwner.class, 1);
+    MapOneToManyInverse inverse = em.find(MapOneToManyInverse.class, 5);
+    
+    // mapKey property is a key to the map
+    Map<String, MapOneToManyInverse> inverses = owner.getInverses();
+    assertEquals(inverse, inverses.get(inverse.getMapKey()));
+    
+    em.close();
+  }
+  
   @Test
   public void tableOneToMany() {
     EntityManager em = factory.createEntityManager();

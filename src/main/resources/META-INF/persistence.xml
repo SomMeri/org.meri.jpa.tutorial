@@ -55,6 +55,8 @@
 		<class>org.meri.jpa.relationships.entities.manytoone.UnidirectionalManyToOneInverse</class>
 		<class>org.meri.jpa.relationships.entities.onetomany.OneToManyOwner</class>
 		<class>org.meri.jpa.relationships.entities.onetomany.OneToManyInverse</class>
+		<class>org.meri.jpa.relationships.entities.onetomany.MapOneToManyOwner</class>
+		<class>org.meri.jpa.relationships.entities.onetomany.MapOneToManyInverse</class>
 		<class>org.meri.jpa.relationships.entities.onetomany.ColumnOneToManyOwner</class>
 		<class>org.meri.jpa.relationships.entities.onetomany.ColumnOneToManyInverse</class>
 		<class>org.meri.jpa.relationships.entities.onetomany.TableOneToManyOwner</class>
@@ -69,7 +71,6 @@
 		<class>org.meri.jpa.relationships.entities.manytomany.MtmInverse</class>
 		<class>org.meri.jpa.relationships.entities.manytomany.TableMtmOwner</class>
 		<class>org.meri.jpa.relationships.entities.manytomany.TableMtmInverse</class>
-		
 		
 		<!-- other properties -->
 		<properties>

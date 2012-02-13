@@ -4,7 +4,7 @@
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
 
-	<changeSet id="13" author="meri">
+	<changeSet id="1" author="meri">
 		<createTable tableName="OneToManyOwner">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
@@ -32,7 +32,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			referencedTableName="OneToManyOwner" referencedColumnNames="id" />
 	</changeSet>
 
-	<changeSet id="14" author="meri">
+	<changeSet id="2" author="meri">
 		<insert tableName="OneToManyInverse">
 			<column name="id" valueNumeric="5" />
 		</insert>
@@ -43,8 +43,52 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			<column name="inverses_id" valueNumeric="5" />
 			<column name="OneToManyOwner_id" valueNumeric="1" />
 		</insert>
+
 	</changeSet>
 
+	<changeSet id="3" author="meri">
+		<createTable tableName="MapOneToManyOwner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="MapOneToManyInverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="mapkey" type="varchar(1500)" />
+		</createTable>
+		<createTable tableName="MapOneToManyOwner_inverses">
+			<column name="MapOneToManyOwner_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="element_id" type="integer" >
+				<constraints nullable="false" unique="true" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_MapOneToManyInverse"
+			baseTableName="MapOneToManyOwner_inverses" baseColumnNames="element_id"
+			referencedTableName="MapOneToManyInverse" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_MapOneToManyOwner"
+			baseTableName="MapOneToManyOwner_inverses" baseColumnNames="MapOneToManyOwner_id"
+			referencedTableName="MapOneToManyOwner" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="4" author="meri">
+		<insert tableName="MapOneToManyInverse">
+			<column name="id" valueNumeric="5" />
+			<column name="mapkey" value="five" />
+		</insert>
+		<insert tableName="MapOneToManyOwner">
+			<column name="id" valueNumeric="1" />
+		</insert>
+		<insert tableName="MapOneToManyOwner_inverses">
+			<column name="MapOneToManyOwner_id" valueNumeric="1" />
+			<column name="element_id" valueNumeric="5" />
+		</insert>
+	</changeSet>
+	
 	<changeSet id="15" author="meri">
 		<createTable tableName="ColumnOneToManyOwner">
 			<column name="id" type="integer">
@@ -62,7 +106,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-
 	</changeSet>
 
 	<changeSet id="16" author="meri">
