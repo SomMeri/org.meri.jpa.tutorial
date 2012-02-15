@@ -3,81 +3,6 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-	<changeSet id="1" author="meri">
-		<createTable tableName="MtmCollectionOwner">
-			<column name="id" type="integer">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
-		</createTable>
-		<createTable tableName="MtmCollectionInverse">
-			<column name="id" type="integer">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
-		</createTable>
-		<createTable tableName="MtmCollectionJoinTable">
-			<column name="inverses_id" type="integer">
-				<constraints nullable="false" />
-			</column>
-			<column name="owners_id" type="integer">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-
-		<addForeignKeyConstraint constraintName="fk_MtmCollectionInverse"
-			baseTableName="MtmCollectionJoinTable" baseColumnNames="inverses_id"
-			referencedTableName="MtmCollectionInverse" referencedColumnNames="id" />
-		<addForeignKeyConstraint constraintName="fk_MtmCollectionOwner"
-			baseTableName="MtmCollectionJoinTable" baseColumnNames="owners_id"
-			referencedTableName="MtmCollectionOwner" referencedColumnNames="id" />
-	</changeSet>
-
-	<changeSet id="2" author="meri">
-		<insert tableName="MtmCollectionInverse">
-			<column name="id" valueNumeric="5" />
-		</insert>
-		<insert tableName="MtmCollectionOwner">
-			<column name="id" valueNumeric="1" />
-		</insert>
-		<insert tableName="MtmCollectionJoinTable">
-			<column name="inverses_id" valueNumeric="5" />
-			<column name="owners_id" valueNumeric="1" />
-		</insert>
-
-		<insert tableName="MtmCollectionInverse">
-			<column name="id" valueNumeric="6" />
-		</insert>
-		<insert tableName="MtmCollectionOwner">
-			<column name="id" valueNumeric="6" />
-		</insert>
-		<insert tableName="MtmCollectionInverse">
-			<column name="id" valueNumeric="7" />
-		</insert>
-		<insert tableName="MtmCollectionOwner">
-			<column name="id" valueNumeric="7" />
-		</insert>
-
-		<insert tableName="MtmCollectionInverse">
-			<column name="id" valueNumeric="3" />
-		</insert>
-		<insert tableName="MtmCollectionOwner">
-			<column name="id" valueNumeric="3" />
-		</insert>
-		<insert tableName="MtmCollectionJoinTable">
-			<column name="inverses_id" valueNumeric="3" />
-			<column name="owners_id" valueNumeric="3" />
-		</insert>
-		<insert tableName="MtmCollectionInverse">
-			<column name="id" valueNumeric="4" />
-		</insert>
-		<insert tableName="MtmCollectionOwner">
-			<column name="id" valueNumeric="4" />
-		</insert>
-		<insert tableName="MtmCollectionJoinTable">
-			<column name="inverses_id" valueNumeric="4" />
-			<column name="owners_id" valueNumeric="4" />
-		</insert>
-	</changeSet>
-
 	<changeSet id="3" author="meri">
 		<createTable tableName="tblMtmOwner">
 			<column name="id" type="integer">
@@ -158,7 +83,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			<column name="mtmowner_id" valueNumeric="4" />
 		</insert>
 	</changeSet>
-	
+
 	<changeSet id="5" author="meri">
 		<createTable tableName="TableMtmOwner">
 			<column name="owner_id" type="integer">
@@ -239,5 +164,86 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			<column name="owner" valueNumeric="4" />
 		</insert>
 	</changeSet>
-	
+
+	<changeSet id="7" author="meri">
+		<createTable tableName="OrderedMtmOwner">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="varchar(1500)" />
+		</createTable>
+		<createTable tableName="OrderedMtmInverse">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="ordering" type="varchar(1500)" />
+		</createTable>
+		<createTable tableName="OrderedMtmOwner_OrderedMtmInverse">
+			<column name="inverses_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="orderedmtmowner_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_OrderedMtmInverse"
+			baseTableName="OrderedMtmOwner_OrderedMtmInverse" baseColumnNames="inverses_id"
+			referencedTableName="OrderedMtmInverse" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_OrderedtblMtmOwner"
+			baseTableName="OrderedMtmOwner_OrderedMtmInverse" baseColumnNames="orderedmtmowner_id"
+			referencedTableName="OrderedMtmOwner" referencedColumnNames="id" />
+	</changeSet>
+
+
+	<changeSet id="8" author="meri">
+		<insert tableName="OrderedMtmInverse">
+			<column name="id" valueNumeric="1" />
+			<column name="ordering" value="attic" />
+		</insert>
+		<insert tableName="OrderedMtmOwner">
+			<column name="id" valueNumeric="1" />
+			<column name="name" value="one" />
+		</insert>
+		<insert tableName="OrderedMtmOwner_OrderedMtmInverse">
+			<column name="inverses_id" valueNumeric="1" />
+			<column name="orderedmtmowner_id" valueNumeric="1" />
+		</insert>
+
+		<insert tableName="OrderedMtmInverse">
+			<column name="id" valueNumeric="10" />
+			<column name="ordering" value="bonanza" />
+		</insert>
+		<insert tableName="OrderedMtmOwner_OrderedMtmInverse">
+			<column name="inverses_id" valueNumeric="10" />
+			<column name="orderedmtmowner_id" valueNumeric="1" />
+		</insert>
+
+		<insert tableName="OrderedMtmInverse">
+			<column name="id" valueNumeric="9" />
+			<column name="ordering" value="cynical" />
+		</insert>
+		<insert tableName="OrderedMtmOwner_OrderedMtmInverse">
+			<column name="inverses_id" valueNumeric="9" />
+			<column name="orderedmtmowner_id" valueNumeric="1" />
+		</insert>
+
+		<insert tableName="OrderedMtmInverse">
+			<column name="id" valueNumeric="8" />
+			<column name="ordering" value="dynamit" />
+		</insert>
+		<insert tableName="OrderedMtmOwner_OrderedMtmInverse">
+			<column name="inverses_id" valueNumeric="8" />
+			<column name="orderedmtmowner_id" valueNumeric="1" />
+		</insert>
+		<insert tableName="OrderedMtmInverse">
+			<column name="id" valueNumeric="7" />
+			<column name="ordering" value="estimate" />
+		</insert>
+		<insert tableName="OrderedMtmOwner_OrderedMtmInverse">
+			<column name="inverses_id" valueNumeric="7" />
+			<column name="orderedmtmowner_id" valueNumeric="1" />
+		</insert>
+
+	</changeSet>
 </databaseChangeLog>

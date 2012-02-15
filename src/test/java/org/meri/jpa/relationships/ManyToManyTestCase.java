@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -12,6 +13,8 @@ import javax.persistence.EntityManager;
 import org.junit.Test;
 import org.meri.jpa.relationships.entities.manytomany.MtmInverse;
 import org.meri.jpa.relationships.entities.manytomany.MtmOwner;
+import org.meri.jpa.relationships.entities.manytomany.OrderedMtmInverse;
+import org.meri.jpa.relationships.entities.manytomany.OrderedMtmOwner;
 import org.meri.jpa.relationships.entities.manytomany.TableMtmInverse;
 import org.meri.jpa.relationships.entities.manytomany.TableMtmOwner;
 
@@ -235,4 +238,33 @@ public class ManyToManyTestCase extends AbstractRelationshipTestCase {
 
     em1.close();
   }
+  
+  /**
+   * Test whether ordering works correctly.
+   */
+  @Test
+  public void orderedList() {
+    EntityManager em = factory.createEntityManager();
+    
+    OrderedMtmOwner owner = em.find(OrderedMtmOwner.class, 1);
+    
+    List<OrderedMtmInverse> inverses = owner.getInverses();
+    assertOrdered(inverses);
+
+    em.close();
+  }
+
+  private void assertOrdered(List<OrderedMtmInverse> inverses) {
+    for (int i = 1; i < inverses.size(); i++) {
+      OrderedMtmInverse current = inverses.get(i);
+      OrderedMtmInverse previous = inverses.get(i-1);
+      
+      if (current.getOrdering() == previous.getOrdering()) {
+        assertTrue(current.getId() < previous.getId());
+      } else {
+        assertTrue(current.getOrdering().compareTo(previous.getOrdering()) > 0);
+      }
+    }
+  }
+
 }

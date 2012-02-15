@@ -71,6 +71,8 @@
 		<class>org.meri.jpa.relationships.entities.manytomany.MtmInverse</class>
 		<class>org.meri.jpa.relationships.entities.manytomany.TableMtmOwner</class>
 		<class>org.meri.jpa.relationships.entities.manytomany.TableMtmInverse</class>
+		<class>org.meri.jpa.relationships.entities.manytomany.OrderedMtmOwner</class>
+		<class>org.meri.jpa.relationships.entities.manytomany.OrderedMtmInverse</class>
 		
 		<!-- other properties -->
 		<properties>
