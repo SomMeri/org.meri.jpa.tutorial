@@ -62,7 +62,9 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="inverse_id" type="integer" />
-			<column name="mapkey" type="varchar(1500)" />
+			<column name="mapkey" type="varchar(1500)" >
+				<constraints unique="true" nullable="false" />
+			</column>
 		</createTable>
 		<createTable tableName="mapinverse">
 			<column name="id" type="integer">
@@ -118,7 +120,9 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="custommapkey" type="varchar(1500)" />
+			<column name="custommapkey" type="varchar(1500)">
+				<constraints unique="true" nullable="false" />
+			</column>
 			<column name="customcolumn" type="integer" />
 		</createTable>
 		<createTable tableName="customcolumnmapinverse">

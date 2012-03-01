@@ -56,7 +56,9 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 			<column name="id" type="integer">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="mapkey" type="varchar(1500)" />
+			<column name="mapkey" type="varchar(1500)" >
+				<constraints unique="true" nullable="false" />
+			</column>
 		</createTable>
 		<createTable tableName="MapOneToManyOwner_inverses">
 			<column name="MapOneToManyOwner_id" type="integer">
